@@ -68,6 +68,8 @@ const SingleStoryStyles = styled.div`
   .body-paragraph {
     font-family: 'Alegreya', serif;
     color: ${props => props.theme.black};
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .title {

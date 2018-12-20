@@ -49,7 +49,8 @@ const CropStyles = styled.div`
   }
 `
 
-const Dropzone = styled(ReactDropzone)`
+const StyledDropzone = styled.div`
+  outline: none;
   width: 480px;
   height: 400px;
   background-color: #f5f5f5;
@@ -185,15 +186,20 @@ class DropAndCrop extends Component {
     return (
       <section>
         {imgSrc === null ? (
-          <Dropzone
+          <ReactDropzone
             accept={acceptedFileTypes}
             maxSize={imageMaxSize}
             multiple={false}
             onDrop={this.onDrop}
           >
-            <img src="/static/icons/upload.svg" alt="Upload avatar" />
-            <p>Drop image</p>
-          </Dropzone>
+            {({ getRootProps, getInputProps }) => (
+              <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
+                <input {...getInputProps()} />
+                <img src="/static/icons/upload.svg" alt="Upload avatar" />
+                <p>Drop image</p>
+              </StyledDropzone>
+            )}
+          </ReactDropzone>
         ) : (
           <Mutation
             mutation={POST_PHOTO_MUTATION}

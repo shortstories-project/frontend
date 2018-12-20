@@ -23,8 +23,8 @@ const NavStyles = styled.ul`
     font-weight: 800;
     &:before {
       content: '';
+      background-color: ${props => props.theme.black};
       width: 2px;
-      background: ${props => props.theme.lightgrey};
       height: 100%;
       left: 0;
       position: absolute;
@@ -56,6 +56,21 @@ const NavStyles = styled.ul`
     width: 100%;
     justify-content: center;
     font-size: 1.5rem;
+    > * {
+      width: calc(100% / 3);
+      padding: 10px;
+      &:first-child::before {
+        content: '';
+        background-color: transparent;
+        width: 2px;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        transform: skew(-20deg);
+        top: 0;
+        bottom: 0;
+      }
+    }
   }
 `
 

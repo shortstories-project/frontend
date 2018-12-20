@@ -90,7 +90,7 @@ const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
-    color: #6d47d9;
+    color: ${theme.purpleDark};
     font-weight: bold;
   }
 

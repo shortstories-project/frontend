@@ -111,7 +111,7 @@ const Signup = () => (
                 Register
               </Button>
             </div>
-            <p className="more-info">
+            {/* <p className="more-info">
               By continuing, you agree to Shortstories&apos;s{' '}
               <Link href="/terms-of-service">
                 <a>Terms of Service</a>
@@ -125,7 +125,7 @@ const Signup = () => (
                 <a>Cookie use</a>
               </Link>
               .
-            </p>
+            </p> */}
             <p className="signup-link">
               Already have an account?{' '}
               <Link href="/signin">

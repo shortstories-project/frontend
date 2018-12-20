@@ -18,7 +18,7 @@ const StyledButton = styled.button`
   pointer-events: ${props =>
     props.disabled || props.loading ? 'none' : 'auto'};
   &:hover {
-    background-color: ${props => props.theme.purpleDark};
+    background-color: ${props => props.theme.purple};
   }
   &:active {
     transform: scale(0.95);

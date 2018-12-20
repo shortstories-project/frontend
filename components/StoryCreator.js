@@ -98,91 +98,101 @@ const INITIAL_VALUES = {
   body: '',
 }
 
-function StoryCreator() {
-  return (
-    <User>
-      {({ data: { me } }) => (
-        <Formik
-          isInitialValid={false}
-          initialValues={INITIAL_VALUES}
-          validate={validate}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setTouched,
-            setSubmitting,
-          }) => (
-            <Mutation
-              mutation={CREATE_STORY_MUTATION}
-              update={update}
-              optimisticResponse={{
-                __typename: 'Mutation',
-                createStory: {
-                  __typename: 'Story',
-                  id: nanoid(10),
-                  title: values.title,
-                  body: values.body,
-                },
-              }}
-            >
-              {(createStory, { loading, error }) => (
-                <PleaseSignIn isAuth={!!me}>
-                  <FormStyles onSubmit={handleSubmit}>
-                    <Error error={error} />
-                    <div className="title-block">
-                      <input
-                        placeholder="Title"
-                        type="text"
-                        name="title"
-                        id="title"
-                        value={values.title}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      {errors.title && touched.title && (
-                        <span className="error-message">{errors.title}</span>
-                      )}
-                    </div>
-                    <div className="body-block">
-                      <ReactTextareaAutosize
-                        placeholder="Where is your mind?"
-                        name="body"
-                        id="body"
-                        value={values.body}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                      />
-                      {errors.body && touched.body && (
-                        <span className="error-message">{errors.body}</span>
-                      )}
-                    </div>
-                    <Button
-                      onClick={async () => {
-                        setTouched(values)
-                        setSubmitting(true)
-                        await createStory({ variables: { ...values } })
-                        Router.push('/me')
-                        setSubmitting(false)
-                      }}
-                      loading={loading}
-                      type="submit"
-                    >
-                      Publish
-                    </Button>
-                  </FormStyles>
-                </PleaseSignIn>
-              )}
-            </Mutation>
-          )}
-        </Formik>
-      )}
-    </User>
-  )
+class StoryCreator extends React.Component {
+  state = INITIAL_VALUES
+
+  changeLocalState = event => {
+    const { name, value } = event.target
+    this.setState({
+      [name]: value,
+    })
+  }
+
+  render() {
+    const { title, body } = this.state
+    return (
+      <User>
+        {({ data: { me } }) => (
+          <Mutation
+            mutation={CREATE_STORY_MUTATION}
+            update={update}
+            optimisticResponse={{
+              __typename: 'Mutation',
+              createStory: {
+                __typename: 'Story',
+                id: nanoid(10),
+                title,
+                body,
+              },
+            }}
+          >
+            {(createStory, { loading, error }) => (
+              <Formik
+                initialValues={INITIAL_VALUES}
+                validate={validate}
+                isInitialValid={false}
+                onSubmit={async values => {
+                  await createStory({ variables: { ...values } })
+                  Router.push('/me')
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                }) => (
+                  <PleaseSignIn isAuth={!!me}>
+                    <FormStyles onSubmit={handleSubmit}>
+                      <Error error={error} />
+                      <div className="title-block">
+                        <input
+                          placeholder="Title"
+                          type="text"
+                          name="title"
+                          id="title"
+                          value={values.title}
+                          onChange={event => {
+                            handleChange(event)
+                            this.changeLocalState(event)
+                          }}
+                          onBlur={handleBlur}
+                        />
+                        {errors.title && touched.title && (
+                          <span className="error-message">{errors.title}</span>
+                        )}
+                      </div>
+                      <div className="body-block">
+                        <ReactTextareaAutosize
+                          placeholder="Where is your mind?"
+                          name="body"
+                          id="body"
+                          value={values.body}
+                          onChange={event => {
+                            handleChange(event)
+                            this.changeLocalState(event)
+                          }}
+                          onBlur={handleBlur}
+                        />
+                        {errors.body && touched.body && (
+                          <span className="error-message">{errors.body}</span>
+                        )}
+                      </div>
+                      <Button loading={loading} type="submit">
+                        Publish
+                      </Button>
+                    </FormStyles>
+                  </PleaseSignIn>
+                )}
+              </Formik>
+            )}
+          </Mutation>
+        )}
+      </User>
+    )
+  }
 }
 
 export default StoryCreator

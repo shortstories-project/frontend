@@ -56,7 +56,7 @@ const Signin = () => (
                 Login
               </Button>
             </div>
-            <p className="more-info">
+            {/* <p className="more-info">
               By continuing, you agree to Shortstories&apos;s{' '}
               <Link href="/terms-of-service">
                 <a>Terms of Service</a>
@@ -70,7 +70,7 @@ const Signin = () => (
                 <a>Cookie use</a>
               </Link>
               .
-            </p>
+            </p> */}
             <Link href="/request-reset">
               <a className="forgotten-link">Forgotten your password?</a>
             </Link>

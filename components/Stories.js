@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 import Link from 'next/link'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -43,6 +44,28 @@ export const STORIES_QUERY = gql`
   }
 `
 
+const NoStories = styled.div`
+  a {
+    position: relative;
+    color: ${props => props.theme.yellow};
+    &::after {
+      content: '';
+      border-bottom: 3px solid ${props => props.theme.yellow};
+      position: absolute;
+      width: 0%;
+      bottom: -1px;
+      transform: translateX(-50%);
+      transition: width 0.4s;
+      transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
+      left: 50%;
+    }
+
+    &:hover::after {
+      width: 100%;
+    }
+  }
+`
+
 function Stories() {
   return (
     <Query query={STORIES_QUERY} fetchPolicy="cache-first">
@@ -51,7 +74,7 @@ function Stories() {
         if (error) return <ErrorMessage error={error} />
         if (!stories.edges.length)
           return (
-            <div>
+            <NoStories>
               <h2>No stories yet</h2>
               <Link href="/create-story">
                 <a>
@@ -61,7 +84,7 @@ function Stories() {
                   </span>
                 </a>
               </Link>
-            </div>
+            </NoStories>
           )
         return <StoriesGrid {...stories} fetchMore={fetchMore} />
       }}
