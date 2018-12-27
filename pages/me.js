@@ -1,9 +1,13 @@
-import Account from '../components/Account'
+import dynamic from 'next/dynamic'
+
+const AccountWithoutSSR = dynamic(import('.../components/Account'), {
+  ssr: false,
+})
 
 function Me() {
   return (
     <div>
-      <Account />
+      <AccountWithoutSSR />
     </div>
   )
 }

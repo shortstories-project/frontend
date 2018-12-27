@@ -289,7 +289,7 @@ class Account extends Component {
                 : LIKED_STORIES_QUERY
             }
             variables={activeTab === 'written' ? { userId: me.id } : undefined}
-            fetchPolicy="no-cache"
+            fetchPolicy="network-only"
           >
             {({ data: { stories }, loading, error, fetchMore }) => (
               <PleaseSignIn isAuth={!!me}>
