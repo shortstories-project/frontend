@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const AccountWithoutSSR = dynamic(import('.../components/Account'), {
+const AccountWithoutSSR = dynamic(import('../components/Account'), {
   ssr: false,
 })
 

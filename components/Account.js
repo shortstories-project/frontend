@@ -282,84 +282,88 @@ class Account extends Component {
     return (
       <User>
         {({ data: { me } }) => (
-          <Query
-            query={
-              activeTab === 'written'
-                ? WRITTEN_STORIES_QUERY
-                : LIKED_STORIES_QUERY
-            }
-            variables={activeTab === 'written' ? { userId: me.id } : undefined}
-            fetchPolicy="network-only"
-          >
-            {({ data: { stories }, loading, error, fetchMore }) => (
-              <PleaseSignIn isAuth={!!me}>
-                <AccountStyles>
-                  <div className="user-info">
-                    <button
-                      onClick={this.openModal}
-                      className="photo-edit"
-                      type="button"
-                    >
-                      <img
-                        className="avatar"
-                        src={getPhoto(me.photo)}
-                        alt={me.username}
-                      />
-                      <div className="blur">
+          <PleaseSignIn isAuth={!!me}>
+            <Query
+              query={
+                activeTab === 'written'
+                  ? WRITTEN_STORIES_QUERY
+                  : LIKED_STORIES_QUERY
+              }
+              variables={
+                activeTab === 'written' && me ? { userId: me.id } : undefined
+              }
+              fetchPolicy="network-only"
+            >
+              {({ data: { stories }, loading, error, fetchMore }) => (
+                <>
+                  <AccountStyles>
+                    <div className="user-info">
+                      <button
+                        onClick={this.openModal}
+                        className="photo-edit"
+                        type="button"
+                      >
                         <img
-                          className="photo-icon"
-                          src="/static/icons/photo.svg"
-                          alt=""
+                          className="avatar"
+                          src={getPhoto(me.photo)}
+                          alt={me.username}
                         />
-                      </div>
-                    </button>
-                    <span className="username">{me.username}</span>
-                    <span className="email">{me.email}</span>
-                  </div>
-                  <nav>
-                    <ul>
-                      <li className={activeTab}>
-                        <span>
-                          <button
-                            type="button"
-                            role="tab"
-                            onClick={() => {
-                              this.changeTab('written')
-                            }}
-                          >
-                            Written
-                          </button>
-                        </span>
-                      </li>
-                      <li className={activeTab === 'favs' ? 'active' : ''}>
-                        <span>
-                          <button
-                            type="button"
-                            role="tab"
-                            onClick={() => {
-                              this.changeTab('favs')
-                            }}
-                          >
-                            Favs
-                          </button>
-                        </span>
-                      </li>
-                    </ul>
-                  </nav>
-                  {this.renderStories(me, loading, error, stories, fetchMore)}
-                </AccountStyles>
-                {isOpen && (
-                  <ReactModal
-                    onRequestClose={this.closeModal}
-                    isOpen={isOpen}
-                    style={customStyles}
-                  >
-                    <DropAndCrop userId={me.id} afterSave={this.closeModal} />
-                  </ReactModal>
-                )}
-              </PleaseSignIn>
-            )}
-          </Query>
+                        <div className="blur">
+                          <img
+                            className="photo-icon"
+                            src="/static/icons/photo.svg"
+                            alt=""
+                          />
+                        </div>
+                      </button>
+                      <span className="username">{me.username}</span>
+                      <span className="email">{me.email}</span>
+                    </div>
+                    <nav>
+                      <ul>
+                        <li className={activeTab}>
+                          <span>
+                            <button
+                              type="button"
+                              role="tab"
+                              onClick={() => {
+                                this.changeTab('written')
+                              }}
+                            >
+                              Written
+                            </button>
+                          </span>
+                        </li>
+                        <li className={activeTab === 'favs' ? 'active' : ''}>
+                          <span>
+                            <button
+                              type="button"
+                              role="tab"
+                              onClick={() => {
+                                this.changeTab('favs')
+                              }}
+                            >
+                              Favs
+                            </button>
+                          </span>
+                        </li>
+                      </ul>
+                    </nav>
+                    {this.renderStories(me, loading, error, stories, fetchMore)}
+                  </AccountStyles>
+                  {isOpen && (
+                    <ReactModal
+                      onRequestClose={this.closeModal}
+                      isOpen={isOpen}
+                      style={customStyles}
+                    >
+                      <DropAndCrop userId={me.id} afterSave={this.closeModal} />
+                    </ReactModal>
+                  )}
+                </>
+              )}
+            </Query>
+          </PleaseSignIn>
         )}
       </User>
     )
