@@ -1,10 +1,6 @@
 node_modules/
-dist/
+.next/
+
 .DS_Store
 .env
-uploads/
-lerna-debug.log
 yarn-error.log
-
-.next/
-.build/
