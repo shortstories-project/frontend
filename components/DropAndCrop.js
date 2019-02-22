@@ -1,3 +1,4 @@
+import 'react-image-crop/dist/ReactCrop.css'
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -195,7 +196,7 @@ class DropAndCrop extends Component {
             {({ getRootProps, getInputProps }) => (
               <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
                 <input {...getInputProps()} />
-                <img src="/static/icons/upload.svg" alt="Upload avatar" />
+                <img src="/static/images/icons/upload.svg" alt="Upload avatar" />
                 <p>Drop image</p>
               </StyledDropzone>
             )}

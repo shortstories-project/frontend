@@ -18,8 +18,8 @@ const DISLIKE_MUTATION = gql`
 
 function DislikeButton({ id, qty, isDisliked }) {
   const icon = isDisliked
-    ? '/static/icons/dislike-fill.svg'
-    : '/static/icons/dislike.svg'
+    ? '/static/images/icons/dislike-fill.svg'
+    : '/static/images/icons/dislike.svg'
   return (
     <Mutation
       mutation={DISLIKE_MUTATION}

@@ -37,7 +37,7 @@ const StyledPage = styled.div`
           min-height: 100%;
           &::before {
             content: '';
-            background-image: url('/static/topography.svg'),
+            background-image: url('/static/images/topography.svg'),
               linear-gradient(20deg, rgb(69, 104, 220), rgb(176, 106, 179));
             background-size: 300px, auto;
             position: fixed;

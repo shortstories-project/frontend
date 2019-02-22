@@ -18,8 +18,8 @@ const LIKE_MUTATION = gql`
 
 function LikeButton({ id, qty, isLiked }) {
   const icon = isLiked
-    ? '/static/icons/like-fill.svg'
-    : '/static/icons/like.svg'
+    ? '/static/images/icons/like-fill.svg'
+    : '/static/images/icons/like.svg'
   return (
     <Mutation
       mutation={LIKE_MUTATION}

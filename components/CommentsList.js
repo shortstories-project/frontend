@@ -276,7 +276,7 @@ function CommentsList({
                           activateEditMode(comment)
                         }}
                       >
-                        <img src="/static/icons/edit.svg" alt="Edit" />
+                        <img src="/static/images/icons/edit.svg" alt="Edit" />
                       </button>
                       <Mutation
                         mutation={DELETE_COMMENT_MUTATION}
@@ -300,7 +300,7 @@ function CommentsList({
                               deleteComment()
                             }}
                           >
-                            <img src="/static/icons/cross.svg" alt="Delete" />
+                            <img src="/static/images/icons/cross.svg" alt="Delete" />
                           </button>
                         )}
                       </Mutation>

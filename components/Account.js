@@ -311,7 +311,7 @@ class Account extends Component {
                         <div className="blur">
                           <img
                             className="photo-icon"
-                            src="/static/icons/photo.svg"
+                            src="/static/images/icons/photo.svg"
                             alt=""
                           />
                         </div>

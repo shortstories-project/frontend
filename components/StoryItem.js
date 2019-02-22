@@ -59,7 +59,7 @@ function StoryItem({
                 toggleModal(true)
               }}
             >
-              <img src="/static/icons/edit.svg" alt="Edit" />
+              <img src="/static/images/icons/edit.svg" alt="Edit" />
             </button>
             <Mutation
               mutation={DELETE_STORY_MUTATION}
@@ -81,7 +81,7 @@ function StoryItem({
                     deleteStory()
                   }}
                 >
-                  <img src="/static/icons/cross.svg" alt="Delete" />
+                  <img src="/static/images/icons/cross.svg" alt="Delete" />
                 </button>
               )}
             </Mutation>
@@ -94,15 +94,15 @@ function StoryItem({
         <ToolsBar>
           <div className="buttons-container">
             <div>
-              <img src="/static/icons/like-fill-gray.svg" alt="like" />
+              <img src="/static/images/icons/like-fill-gray.svg" alt="like" />
               <span>{stats.likes}</span>
             </div>
             <div>
-              <img src="/static/icons/dislike-fill-gray.svg" alt="dislike" />
+              <img src="/static/images/icons/dislike-fill-gray.svg" alt="dislike" />
               <span>{stats.dislikes}</span>
             </div>
             <div>
-              <img src="/static/icons/comment-fill-gray.svg" alt="comments" />
+              <img src="/static/images/icons/comment-fill-gray.svg" alt="comments" />
               <span>{stats.comments}</span>
             </div>
           </div>

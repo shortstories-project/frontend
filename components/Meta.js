@@ -5,13 +5,29 @@ function Meta() {
     <Head>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta charSet="utf-8" />
-      <link rel="shortcut icon" href="/static/favicon.ico" />
+      <link rel="shortcut icon" href="/static/images/icons/favicon.ico" />
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       <link
-        href="https://fonts.googleapis.com/css?family=Alegreya|Montserrat:400,600|Pacifico"
-        rel="stylesheet"
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
       />
-      <link rel="stylesheet" type="text/css" href="/static/react-crop.css" />
-      <link rel="stylesheet" type="text/css" href="/static/nprogress.css" />
+      <link
+        rel="preload"
+        href="https://fonts.googleapis.com/css?family=Alegreya|Montserrat:400,600|Pacifico"
+        as="fetch"
+        crossOrigin="anonymous"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="/static/styles/nprogress.css"
+      />
+      <script
+        type="text/javascript"
+        src="/static/scripts/google-fonts-fast-render.js"
+      />
+      <script type="text/javascript" src="/static/scripts/yandex-metrika.js" />
       <title>Shortstories</title>
     </Head>
   )
