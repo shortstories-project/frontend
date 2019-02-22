@@ -36,7 +36,7 @@ const FormStyles = styled.form`
   textarea {
     width: 100%;
     font-family: 'Alegreya', serif;
-    border: 5px solid ${props => props.theme.yellow};
+    border: 3px solid ${props => props.theme.black};
     outline: none;
     color: ${props => props.theme.black};
   }
@@ -44,7 +44,7 @@ const FormStyles = styled.form`
   .title-block {
     input {
       padding: 10px 20px;
-      font-size: 5rem;
+      font-size: 3rem;
       margin-bottom: 4px;
     }
   }
@@ -55,7 +55,7 @@ const FormStyles = styled.form`
       line-height: 1.4;
       padding: 10px 20px;
       resize: none;
-      min-height: 300px;
+      min-height: 60vh;
     }
   }
 

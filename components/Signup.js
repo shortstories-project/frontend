@@ -9,6 +9,7 @@ import AuthForm from './styles/AuthForm'
 import Input from './Input'
 import Error from './ErrorMessage'
 import Button from './Button'
+import Logo from './Logo'
 import { CURRENT_USER_QUERY } from './User'
 import {
   isEmail,
@@ -74,7 +75,7 @@ const Signup = () => (
         render={props => (
           // eslint-disable-next-line
           <AuthForm onSubmit={props.handleSubmit}>
-            <h2 className="logo">Shortstories</h2>
+            <Logo />
             <Error error={signUpMutation.result.error} />
             <Input
               name="username"

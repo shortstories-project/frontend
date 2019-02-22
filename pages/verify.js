@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import Header from '../components/Header'
-import StoryCreator from '../components/StoryCreator'
+import PropTypes from 'prop-types'
+import Verify from '../components/Verify'
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,20 +22,35 @@ const Wrapper = styled.div`
 `
 
 const Inner = styled.div`
-  max-width: ${props => props.theme.maxWidth};
-  margin: 0 auto;
-  padding: 2rem;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
-function CreateStory() {
+const Columns = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 380px));
+  justify-content: center;
+`
+
+function VerifyPage({ query }) {
   return (
     <Wrapper>
-      <Header />
       <Inner>
-        <StoryCreator />
+        <Columns>
+          <Verify token={query.verifyToken} />
+        </Columns>
       </Inner>
     </Wrapper>
   )
 }
 
-export default CreateStory
+VerifyPage.propTypes = {
+  query: PropTypes.shape({
+    verifyToken: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
+export default VerifyPage

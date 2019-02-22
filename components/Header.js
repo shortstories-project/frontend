@@ -20,8 +20,8 @@ const Logo = styled.h1`
   font-family: 'Pacifico', cursive;
   font-size: 3.5rem;
   letter-spacing: -1.5px;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   margin-left: 2rem;
   position: relative;
   z-index: 2;

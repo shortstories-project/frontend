@@ -8,6 +8,7 @@ import AuthForm from './styles/AuthForm'
 import Input from './Input'
 import Error from './ErrorMessage'
 import Button from './Button'
+import Logo from './Logo'
 import { CURRENT_USER_QUERY } from './User'
 import { isEmpty } from '../lib/validators'
 
@@ -38,7 +39,7 @@ const Signin = () => (
         render={props => (
           // eslint-disable-next-line
           <AuthForm onSubmit={props.handleSubmit}>
-            <h2 className="logo">Shortstories</h2>
+            <Logo />
             <Error error={error} />
             <Input
               name="login"
