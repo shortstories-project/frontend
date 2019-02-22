@@ -33,6 +33,7 @@ const Logo = styled.h1`
   }
 
   @media (max-width: 1300px) {
+    padding: 1.2rem 0;
     margin: 0;
     text-align: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.25);
