@@ -11,10 +11,7 @@ function Meta() {
       <meta name="title" content="Shortstories" />
       <meta name="description" content="Write story" />
       <meta name="keywords" content="" />
-      <meta
-        property="og:site_name"
-        content="Умное голосование: Санкт-Петербург"
-      />
+      <meta property="og:site_name" content="Shortstories" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://shortstories.io/" />
       <meta property="og:title" content="Shortstories" />
