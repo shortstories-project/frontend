@@ -3,8 +3,42 @@ import Head from 'next/head'
 function Meta() {
   return (
     <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta
+        name="viewport"
+        content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
       <meta charSet="utf-8" />
+      <meta name="title" content="Shortstories" />
+      <meta name="description" content="Write story" />
+      <meta name="keywords" content="" />
+      <meta
+        property="og:site_name"
+        content="Умное голосование: Санкт-Петербург"
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://shortstories.io/" />
+      <meta property="og:title" content="Shortstories" />
+      <meta property="og:description" content="Write story" />
+      <meta
+        property="og:image"
+        content="https://shortstories.io/static/images/share.png"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:url"
+        content="https://shortstories.io/static/images/share.png"
+      />
+      <meta name="twitter:title" content="Shortstories" />
+      <meta name="twitter:text:title" content="Shortstories" />
+      <meta name="twitter:description" content="Write story" />
+      <meta
+        name="twitter:image:src"
+        content="https://shortstories.io/static/images/share.png"
+      />
+      <link
+        rel="image_src"
+        href="https://shortstories.io/static/images/share.png"
+      />
       <link rel="shortcut icon" href="/static/images/icons/favicon.ico" />
       <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
       <link
