@@ -38,8 +38,8 @@ function Meta() {
         rel="image_src"
         href="https://shortstories.io/static/images/share.png"
       />
-      <link rel="shortcut icon" href="/static/images/icons/favicon.ico" />
-      <link rel="apple-touch-icon" href="/static/images/icons/favicon.ico" />
+      <link rel="shortcut icon" href="/static/images/icons/favicon.png" />
+      <link rel="apple-touch-icon" href="/static/images/icons/favicon.png" />
       <meta name="apple-mobile-web-app-title" content="Shortstories" />
       <meta name="apple-mobile-web-app-status-bar-style" content="default" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
