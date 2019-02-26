@@ -71,11 +71,11 @@ export const validate = values => {
   if (!values.title) {
     errors.title = 'Enter title'
   }
-  if (values.body.length < 600) {
-    errors.body = 'Too short story (min 600 symbols)'
+  if (values.body.length < 4000) {
+    errors.body = 'Too short story (min 4000 symbols)'
   }
-  if (values.body.length > 4000) {
-    errors.body = 'Too long story (max 4000 symbols)'
+  if (values.body.length > 40000) {
+    errors.body = 'Too long story (max 40000 symbols)'
   }
   return errors
 }
