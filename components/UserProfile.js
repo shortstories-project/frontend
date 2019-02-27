@@ -47,12 +47,16 @@ const UserProfileStyles = styled.div`
       box-shadow: ${props => props.theme.bs};
     }
   }
+  > p {
+    color: ${props => props.theme.white};
+  }
   .user-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
     .username {
+      color: ${props => props.theme.white};
       font-size: 3.6rem;
       font-weight: bold;
       margin-bottom: 10px;
@@ -78,12 +82,12 @@ function UserProfile({ id }) {
               </div>
               <span className="username">{data.user.username}</span>
             </div>
-            <Query query={STORIES_QUERY}>
+            <Query query={STORIES_QUERY} variables={{ userId: id }}>
               {({ data: { stories }, loading, error, fetchMore }) => {
                 if (loading) return <BigLoader />
                 if (error) return <Error error={error} />
                 return !stories.edges.length ? (
-                  <p>No stories</p>
+                  <p>Нет рассказов</p>
                 ) : (
                   <StoriesGrid {...stories} fetchMore={fetchMore} />
                 )

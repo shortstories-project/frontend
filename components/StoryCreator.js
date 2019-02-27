@@ -270,8 +270,8 @@ class StoryCreator extends PureComponent {
                         <Error error={error} />
                         <div className="title-block">
                           <input
-                            autoCapitalize
-                            autoComplete={false}
+                            autoCapitalize="true"
+                            autoComplete="new-password"
                             placeholder="Заголовок"
                             type="text"
                             name="title"

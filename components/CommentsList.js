@@ -56,6 +56,7 @@ const List = styled.ul`
   margin-top: 20px;
   padding: 0;
   list-style-type: none;
+  padding-bottom: 40px;
 
   .avatar {
     width: 40px;

@@ -46,7 +46,7 @@ const CommentsStyles = styled.div`
   margin: 0 auto;
 
   .no-comments {
-    margin: 20px 0;
+    padding: 20px 0;
   }
 
   .more-button {

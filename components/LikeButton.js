@@ -16,7 +16,7 @@ const LIKE_MUTATION = gql`
   }
 `
 
-function LikeButton({ id, qty, isLiked }) {
+function LikeButton({ id, qty, isLiked, night }) {
   const icon = isLiked
     ? '/static/images/icons/like-fill.svg'
     : '/static/images/icons/like.svg'
@@ -29,7 +29,7 @@ function LikeButton({ id, qty, isLiked }) {
       ]}
     >
       {likeStory => (
-        <ReactionButtonStyles>
+        <ReactionButtonStyles night={night}>
           <button
             type="button"
             onClick={() => {

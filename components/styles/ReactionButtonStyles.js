@@ -42,6 +42,7 @@ const ReactionButtonStyles = styled.div`
   }
 
   span {
+    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
     margin-left: 10px;
     font-weight: bold;
   }

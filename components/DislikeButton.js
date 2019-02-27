@@ -16,7 +16,7 @@ const DISLIKE_MUTATION = gql`
   }
 `
 
-function DislikeButton({ id, qty, isDisliked }) {
+function DislikeButton({ id, qty, isDisliked, night }) {
   const icon = isDisliked
     ? '/static/images/icons/dislike-fill.svg'
     : '/static/images/icons/dislike.svg'
@@ -29,7 +29,7 @@ function DislikeButton({ id, qty, isDisliked }) {
       ]}
     >
       {dislikeStory => (
-        <ReactionButtonStyles>
+        <ReactionButtonStyles night={night}>
           <button
             type="button"
             onClick={() => {

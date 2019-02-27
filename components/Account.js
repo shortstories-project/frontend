@@ -98,6 +98,9 @@ const toLiked = keyframes`
 const AccountStyles = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  > p {
+    color: ${props => props.theme.white};
+  }
   .photo-edit {
     cursor: pointer;
     position: relative;
@@ -142,11 +145,13 @@ const AccountStyles = styled.div`
     flex-direction: column;
     align-items: center;
     .username {
+      color: ${props => props.theme.white};
       font-size: 3.6rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
     .email {
+      color: ${props => props.theme.white};
       font-size: 1.4rem;
       font-weight: bold;
       margin-bottom: 20px;
@@ -154,7 +159,7 @@ const AccountStyles = styled.div`
   }
 
   nav {
-    border-bottom: 1px solid rgb(255, 198, 0, 0.2);
+    border-bottom: 1px solid rgb(255, 255, 255, 0.2);
     margin-bottom: 50px;
     ul {
       margin: 0;
@@ -174,7 +179,7 @@ const AccountStyles = styled.div`
           border: none;
           margin: 0;
           padding: 0;
-          color: ${props => props.theme.yellow};
+          color: ${props => props.theme.white};
           font-size: 1.6rem;
           font-weight: bold;
           background: transparent;
@@ -183,7 +188,7 @@ const AccountStyles = styled.div`
           content: '';
           position: absolute;
           width: 100%;
-          border-bottom: 2px solid rgb(255, 198, 0, 0.8);
+          border-bottom: 2px solid rgb(255, 255, 255, 0.8);
           bottom: 0;
         }
       }
@@ -267,7 +272,7 @@ class Account extends Component {
     if (loading || !stories) return <BigLoader />
     if (error) return <Error error={error} />
     return !stories.edges.length ? (
-      <p>No stories</p>
+      <p>Нет рассказов</p>
     ) : (
       <StoriesGrid
         {...stories}

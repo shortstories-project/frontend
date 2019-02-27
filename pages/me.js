@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),
-      linear-gradient(20deg, rgb(69, 104, 220), rgb(176, 106, 179));
+      linear-gradient(20deg, rgb(20, 20, 20), rgb(20, 20, 20));
     background-size: 300px, auto;
     position: fixed;
     top: 0;

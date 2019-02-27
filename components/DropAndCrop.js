@@ -196,8 +196,11 @@ class DropAndCrop extends Component {
             {({ getRootProps, getInputProps }) => (
               <StyledDropzone {...getRootProps({ refKey: 'ref' })}>
                 <input {...getInputProps()} />
-                <img src="/static/images/icons/upload.svg" alt="Upload avatar" />
-                <p>Drop image</p>
+                <img
+                  src="/static/images/icons/upload.svg"
+                  alt="Upload avatar"
+                />
+                <p>Выберите изображение</p>
               </StyledDropzone>
             )}
           </ReactDropzone>
@@ -233,14 +236,14 @@ class DropAndCrop extends Component {
                       })
                     }}
                   >
-                    Select another file
+                    Другое фото
                   </Button>
                   <Button
                     onClick={() => {
                       this.saveAndContinue(postPhoto)
                     }}
                   >
-                    Save and continue
+                    Сохранить
                   </Button>
                 </div>
               </CropStyles>

@@ -57,7 +57,7 @@ const EditForm = styled.form`
   input,
   textarea {
     font-family: 'Alegreya', serif;
-    border: 3px solid ${props => props.theme.yellow};
+    border: 2px solid #b8b8b8;
     outline: none;
     color: ${props => props.theme.black};
   }
@@ -179,10 +179,10 @@ function EditingStoryModal({ isOpen, toggle, title, body, id }) {
                       toggle(false)
                     }}
                   >
-                    Cancel
+                    Отмена
                   </Button>
                   <Button loading={loading} type="submit">
-                    Save
+                    Сохранить
                   </Button>
                 </div>
               </EditForm>

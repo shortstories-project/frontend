@@ -6,8 +6,9 @@ const StoryStyles = styled.div`
   height: 450px;
   overflow: hidden;
   background: ${props => props.theme.white};
-  border: 5px solid ${props => props.theme.yellow};
-  padding: 20px;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 20px 0 rgba(255, 255, 255, 0.1);
   transform: translateZ(0);
   transition: box-shadow 0.3s ease-out, transform 0.3s ease-out,
     opacity 0.2s ease-out;

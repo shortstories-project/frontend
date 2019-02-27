@@ -2,7 +2,7 @@ export default {
   yellow: '#ffc600',
   black: '#272727',
   white: '#fcfcfc',
-  purple: '#fc67fa',
+  purple: '#452249',
   purpleDark: '#6d47d9',
   pink: '#f4c4f3',
   red: '#ff0000',

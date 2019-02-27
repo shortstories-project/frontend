@@ -45,6 +45,10 @@ export const STORIES_QUERY = gql`
 `
 
 const NoStories = styled.div`
+  h2 {
+    color: ${props => props.theme.white};
+  }
+
   a {
     position: relative;
     color: ${props => props.theme.yellow};
@@ -68,7 +72,7 @@ const NoStories = styled.div`
 
 function Stories() {
   return (
-    <Query query={STORIES_QUERY} fetchPolicy="cache-first">
+    <Query query={STORIES_QUERY} fetchPolicy="network-only">
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />
