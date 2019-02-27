@@ -13,7 +13,7 @@
   "author": "Shashkov Danil <shashkovdanil@gmail.com> (https://github.com/shashkovdanil)",
   "license": "MIT",
   "scripts": {
-    "start:dev": "NODE_ENV=development node server.js",
+    "start:dev": "next -p 5555",
     "build:prod": "next build",
     "start:prod": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --watch",

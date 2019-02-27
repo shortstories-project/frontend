@@ -75,10 +75,10 @@ function Stories() {
         if (!stories.edges.length)
           return (
             <NoStories>
-              <h2>No stories yet</h2>
+              <h2>Пока что нет историй :(</h2>
               <Link href="/create-story">
                 <a>
-                  Be the first{' '}
+                  Стань первым{' '}
                   <span role="img" aria-label="fire">
                     🔥
                   </span>

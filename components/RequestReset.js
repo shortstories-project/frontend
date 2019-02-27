@@ -59,22 +59,31 @@ class RequestReset extends Component {
             }}
             render={props => (
               // eslint-disable-next-line
-              <AuthForm method="POST" onSubmit={props.handleSubmit}>
+              <AuthForm onSubmit={props.handleSubmit}>
+                <button
+                  type="button"
+                  className="back"
+                  onClick={() => {
+                    Router.back()
+                  }}
+                >
+                  <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
+                </button>
                 <Logo />
                 <Error error={requestResetMutation.result.error} />
                 {requestSentEmail ? (
                   <div className="success-message">
-                    <h3>Email sent!</h3>
+                    <h3>Запрос отправлен</h3>
                     <p>
-                      We sent a message to <span>{requestSentEmail}</span> so
-                      you can pick your new password.
+                      Проверьте письмо по адресу <span>{requestSentEmail}</span>{' '}
+                      и сбросьте пароль.
                     </p>
                   </div>
                 ) : (
                   <>
                     <Input
                       name="login"
-                      label="Login"
+                      label="Логин"
                       validate={value =>
                         login(value, checkUserExistMutation.mutation)
                       }
@@ -84,9 +93,9 @@ class RequestReset extends Component {
                         loading={requestResetMutation.result.loading}
                         type="submit"
                       >
-                        Request Reset
+                        Восстановить
                       </Button>
-                      <Button onClick={Router.back}>Back</Button>
+                      <Button onClick={Router.back}>Назад</Button>
                     </div>
                   </>
                 )}

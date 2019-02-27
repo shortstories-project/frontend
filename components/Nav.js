@@ -10,10 +10,13 @@ const Nav = () => (
         {me && (
           <>
             <Link href="/create-story">
-              <a>Create story</a>
+              <a className="write">
+                Написать рассказ
+                <img src="/static/images/icons/pen.svg" alt="" />
+              </a>
             </Link>
             <Link href="/me">
-              <a>Account</a>
+              <a>Профиль</a>
             </Link>
             <Signout />
           </>
@@ -21,10 +24,10 @@ const Nav = () => (
         {!me && (
           <>
             <Link href="/signin">
-              <a>Sign In</a>
+              <a>Вход</a>
             </Link>
             <Link href="/signup">
-              <a>Sign Up</a>
+              <a>Регистрация</a>
             </Link>
           </>
         )}

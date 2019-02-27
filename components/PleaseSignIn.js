@@ -4,21 +4,19 @@ import PropTypes from 'prop-types'
 import Signin from './Signin'
 
 const PleaseSignInStyles = styled.div`
+  padding: 10px;
   max-width: 380px;
   margin: 0 auto;
-
-  p {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 1.6rem;
-  }
+  position: absolute;
+  top: calc(50vh / 2);
+  left: 0;
+  right: 0;
 `
 
 function PleaseSignIn({ isAuth, children }) {
   if (!isAuth) {
     return (
       <PleaseSignInStyles>
-        <p>Please Sign In before Continuing</p>
         <Signin />
       </PleaseSignInStyles>
     )

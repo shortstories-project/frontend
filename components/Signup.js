@@ -75,11 +75,20 @@ const Signup = () => (
         render={props => (
           // eslint-disable-next-line
           <AuthForm onSubmit={props.handleSubmit}>
+            <button
+              type="button"
+              className="back"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
+            </button>
             <Logo />
             <Error error={signUpMutation.result.error} />
             <Input
               name="username"
-              label="Username"
+              label="Псевдоним"
               validate={value =>
                 username(value, checkUserExistMutation.mutation)
               }
@@ -87,7 +96,7 @@ const Signup = () => (
             <Input
               name="email"
               type="email"
-              label="Email"
+              label="E-mail"
               validate={value =>
                 isEmail(value, checkUserExistMutation.mutation)
               }
@@ -95,13 +104,13 @@ const Signup = () => (
             <Input
               name="password"
               type="password"
-              label="Password"
+              label="Пароль"
               validate={password}
             />
             <Input
               name="passwordConfirmation"
               type="password"
-              label="Password Confirm"
+              label="Подтвердите пароль"
               validate={value =>
                 // eslint-disable-next-line
                 confirmationPassword(value, props.values.password)
@@ -109,7 +118,7 @@ const Signup = () => (
             />
             <div className="button-with-error">
               <Button loading={signUpMutation.result.loading} type="submit">
-                Register
+                Зарегистрироваться
               </Button>
             </div>
             {/* <p className="more-info">
@@ -128,9 +137,9 @@ const Signup = () => (
               .
             </p> */}
             <p className="signup-link">
-              Already have an account?{' '}
+              Уже есть аккаунт?{' '}
               <Link href="/signin">
-                <a>Sign in</a>
+                <a>Войдите</a>
               </Link>
               .
             </p>

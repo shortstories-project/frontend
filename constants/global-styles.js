@@ -5,6 +5,15 @@ import theme from './theme'
 export default createGlobalStyle`
   ${normalize};
 
+  * {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
   html {
     font-size: 10px;
     height: 100%;

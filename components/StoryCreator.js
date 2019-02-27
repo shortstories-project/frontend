@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import Router from 'next/router'
 import styled from 'styled-components'
 import { Mutation } from 'react-apollo'
@@ -9,6 +9,7 @@ import nanoid from 'nanoid'
 import Button from './Button'
 import Error from './ErrorMessage'
 import User from './User'
+import Logo from './Logo'
 import PleaseSignIn from './PleaseSignIn'
 import { STORIES_QUERY } from './Stories'
 
@@ -22,8 +23,70 @@ const CREATE_STORY_MUTATION = gql`
   }
 `
 
+const Wrapper = styled.div`
+  background-color: ${props => (props.night ? '#111' : '#fff')};
+  transition: background-color 0.45s ease-in-out;
+  min-height: 100vh;
+`
+
+const Header = styled.div`
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  transition: top 0.3s, background-color 0.45s ease-in-out;
+  width: 100%;
+  background-color: ${props => (props.night ? '#111' : '#fff')};
+
+  h2 {
+    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+  }
+
+  .back {
+    position: absolute;
+    left: 24px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    background-image: url(${props =>
+      props.night
+        ? '/static/images/icons/left-arrow-grey.svg'
+        : '/static/images/icons/left-arrow.svg'});
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .day-night {
+    position: absolute;
+    right: 24px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    background-image: url(${props =>
+      props.night
+        ? '/static/images/icons/moon-grey.svg'
+        : '/static/images/icons/moon.svg'});
+    background-size: contain;
+    width: 34px;
+    height: 34px;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+`
+
 const FormStyles = styled.form`
   max-width: 700px;
+  padding: 24px;
+  padding-top: 104px;
   margin: 0 auto;
   display: grid;
 
@@ -35,16 +98,17 @@ const FormStyles = styled.form`
   input,
   textarea {
     width: 100%;
-    font-family: 'Alegreya', serif;
-    border: 3px solid ${props => props.theme.black};
+    font-family: Alegreya, serif;
+    border: none;
     outline: none;
-    color: ${props => props.theme.black};
+    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+    background: transparent;
   }
 
   .title-block {
     input {
-      padding: 10px 20px;
       font-size: 3rem;
+      font-weight: bold;
       margin-bottom: 4px;
     }
   }
@@ -53,9 +117,8 @@ const FormStyles = styled.form`
     textarea {
       font-size: 2.1rem;
       line-height: 1.4;
-      padding: 10px 20px;
       resize: none;
-      min-height: 60vh;
+      min-height: 50vh;
     }
   }
 
@@ -64,18 +127,27 @@ const FormStyles = styled.form`
     font-size: 1.2rem;
     font-weight: bold;
   }
+
+  button {
+    position: static;
+    width: auto;
+    margin: 30px 0;
+    padding: 1px 0;
+    color: ${props => (props.night ? props.theme.black : props.theme.white)};
+    background-color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+  }
 `
 
 export const validate = values => {
   const errors = {}
   if (!values.title) {
-    errors.title = 'Enter title'
+    errors.title = 'Введите заголовок'
   }
   if (values.body.length < 4000) {
-    errors.body = 'Too short story (min 4000 symbols)'
+    errors.body = 'Слишком короткая история'
   }
   if (values.body.length > 40000) {
-    errors.body = 'Too long story (max 40000 symbols)'
+    errors.body = 'Слишком длинная история'
   }
   return errors
 }
@@ -98,8 +170,37 @@ const INITIAL_VALUES = {
   body: '',
 }
 
-class StoryCreator extends React.Component {
-  state = INITIAL_VALUES
+let prevScrollpos
+
+try {
+  prevScrollpos = window.pageYOffset
+} catch (e) {
+  // Nothing
+}
+
+class StoryCreator extends PureComponent {
+  state = {
+    ...INITIAL_VALUES,
+    night: false,
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = () => {
+    const currentScrollPos = window.pageYOffset
+    if (prevScrollpos > currentScrollPos) {
+      document.querySelector('.header').style.top = '0'
+    } else {
+      document.querySelector('.header').style.top = '-80px'
+    }
+    prevScrollpos = currentScrollPos
+  }
 
   changeLocalState = event => {
     const { name, value } = event.target
@@ -109,7 +210,7 @@ class StoryCreator extends React.Component {
   }
 
   render() {
-    const { title, body } = this.state
+    const { title, body, night } = this.state
     return (
       <User>
         {({ data: { me } }) => (
@@ -145,45 +246,70 @@ class StoryCreator extends React.Component {
                   handleSubmit,
                 }) => (
                   <PleaseSignIn isAuth={!!me}>
-                    <FormStyles onSubmit={handleSubmit}>
-                      <Error error={error} />
-                      <div className="title-block">
-                        <input
-                          placeholder="Title"
-                          type="text"
-                          name="title"
-                          id="title"
-                          value={values.title}
-                          onChange={event => {
-                            handleChange(event)
-                            this.changeLocalState(event)
+                    <Wrapper night={night}>
+                      <Header className="header" night={night}>
+                        <button
+                          className="back"
+                          type="button"
+                          onClick={() => {
+                            Router.back()
                           }}
-                          onBlur={handleBlur}
                         />
-                        {errors.title && touched.title && (
-                          <span className="error-message">{errors.title}</span>
-                        )}
-                      </div>
-                      <div className="body-block">
-                        <ReactTextareaAutosize
-                          placeholder="Where is your mind?"
-                          name="body"
-                          id="body"
-                          value={values.body}
-                          onChange={event => {
-                            handleChange(event)
-                            this.changeLocalState(event)
+                        <Logo />
+                        <button
+                          type="button"
+                          className="day-night"
+                          onClick={() => {
+                            this.setState(state => ({
+                              night: !state.night,
+                            }))
                           }}
-                          onBlur={handleBlur}
                         />
-                        {errors.body && touched.body && (
-                          <span className="error-message">{errors.body}</span>
-                        )}
-                      </div>
-                      <Button loading={loading} type="submit">
-                        Publish
-                      </Button>
-                    </FormStyles>
+                      </Header>
+                      <FormStyles night={night} onSubmit={handleSubmit}>
+                        <Error error={error} />
+                        <div className="title-block">
+                          <input
+                            autoCapitalize
+                            autoComplete={false}
+                            placeholder="Заголовок"
+                            type="text"
+                            name="title"
+                            id="title"
+                            value={values.title}
+                            onChange={event => {
+                              handleChange(event)
+                              this.changeLocalState(event)
+                            }}
+                            onBlur={handleBlur}
+                          />
+                          {errors.title && touched.title && (
+                            <span className="error-message">
+                              {errors.title}
+                            </span>
+                          )}
+                        </div>
+                        <div className="body-block">
+                          <ReactTextareaAutosize
+                            placeholder="Расскажи историю..."
+                            name="body"
+                            id="body"
+                            value={values.body}
+                            onChange={event => {
+                              handleChange(event)
+                              this.changeLocalState(event)
+                            }}
+                            onBlur={handleBlur}
+                          />
+                          {errors.body && touched.body && (
+                            <span className="error-message">{errors.body}</span>
+                          )}
+                        </div>
+                        <Button loading={loading} type="submit">
+                          Опубликовать
+                        </Button>
+                      </FormStyles>
+                    </Wrapper>
                   </PleaseSignIn>
                 )}
               </Formik>

@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import NProgress from 'nprogress'
 import Nav from './Nav'
 
+NProgress.configure({ showSpinner: false })
+
 Router.onRouteChangeStart = () => {
   NProgress.start()
 }
@@ -17,19 +19,18 @@ Router.onRouteChangeError = () => {
 }
 
 const Logo = styled.h1`
-  font-family: 'Pacifico', cursive;
-  font-size: 3.5rem;
+  font-family: Pacifico, cursive;
+  font-size: 30px;
   letter-spacing: -1.5px;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin-top: 14px;
+  margin-bottom: 14px;
   margin-left: 2rem;
   position: relative;
   z-index: 2;
 
   a {
-    padding: 0.5rem 1rem;
-    color: black;
-    text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.2);
+    padding: 0 1rem;
+    color: #110000;
   }
 
   @media (max-width: 1300px) {

@@ -43,7 +43,16 @@ const Reset = ({ token }) => (
         }}
         render={props => (
           // eslint-disable-next-line
-          <AuthForm method="POST" onSubmit={props.handleSubmit}>
+          <AuthForm onSubmit={props.handleSubmit}>
+            <button
+              type="button"
+              className="back"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
+            </button>
             <Logo />
             <Error error={error} />
             <Input

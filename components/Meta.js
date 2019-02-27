@@ -9,7 +9,7 @@ function Meta() {
       />
       <meta charSet="utf-8" />
       <meta name="title" content="Shortstories" />
-      <meta name="description" content="Write story" />
+      <meta name="description" content="Стань автором лучшего рассказа" />
       <meta name="keywords" content="" />
       <link rel="manifest" href="/static/other/manifest.json" />
       <meta name="theme-color" content="#766ac3" />
@@ -17,7 +17,10 @@ function Meta() {
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://shortstories.io/" />
       <meta property="og:title" content="Shortstories" />
-      <meta property="og:description" content="Write story" />
+      <meta
+        property="og:description"
+        content="Стань автором лучшего рассказа"
+      />
       <meta
         property="og:image"
         content="https://shortstories.io/static/images/share.png"
@@ -29,7 +32,10 @@ function Meta() {
       />
       <meta name="twitter:title" content="Shortstories" />
       <meta name="twitter:text:title" content="Shortstories" />
-      <meta name="twitter:description" content="Write story" />
+      <meta
+        name="twitter:description"
+        content="Стань автором лучшего рассказа"
+      />
       <meta
         name="twitter:image:src"
         content="https://shortstories.io/static/images/share.png"

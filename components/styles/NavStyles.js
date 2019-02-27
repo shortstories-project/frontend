@@ -15,12 +15,13 @@ const NavStyles = styled.ul`
     justify-content: center;
     position: relative;
     text-transform: uppercase;
-    font-size: 1.5rem;
+    font-size: 12px;
     background: none;
     border: 0;
     cursor: pointer;
     color: ${props => props.theme.black};
     font-weight: 800;
+    line-height: 14px;
     &:before {
       content: '';
       background-color: ${props => props.theme.black};
@@ -52,10 +53,16 @@ const NavStyles = styled.ul`
       }
     }
   }
+  .write img {
+    width: 30px;
+    height: 14px;
+    position: relative;
+    top: -1px;
+  }
   @media (max-width: 1300px) {
     width: 100%;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 10px;
     > * {
       width: calc(100% / 3);
       padding: 10px;

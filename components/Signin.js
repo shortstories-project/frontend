@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { Mutation } from 'react-apollo'
+import { adopt } from 'react-adopt'
 import gql from 'graphql-tag'
 import { Formik } from 'formik'
 import AuthForm from './styles/AuthForm'
@@ -10,7 +11,7 @@ import Error from './ErrorMessage'
 import Button from './Button'
 import Logo from './Logo'
 import { CURRENT_USER_QUERY } from './User'
-import { isEmpty } from '../lib/validators'
+import { password, login } from '../lib/validators'
 
 const SIGN_IN_MUTATION = gql`
   mutation SIGN_IN_MUTATION($login: String!, $password: String!) {
@@ -22,39 +23,69 @@ const SIGN_IN_MUTATION = gql`
   }
 `
 
+const CHECK_USER_EXIST_MUTATION = gql`
+  mutation CHECK_USER_EXIST_MUTATION($login: String!) {
+    checkUserExist(login: $login)
+  }
+`
+
+const Composed = adopt({
+  // eslint-disable-next-line
+  signInMutation: ({ render }) => (
+    <Mutation
+      mutation={SIGN_IN_MUTATION}
+      refetchQueries={[{ query: CURRENT_USER_QUERY }]}
+    >
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  ),
+  // eslint-disable-next-line
+  checkUserExistMutation: ({ render }) => (
+    <Mutation mutation={CHECK_USER_EXIST_MUTATION}>
+      {(mutation, result) => render({ mutation, result })}
+    </Mutation>
+  ),
+})
+
 const Signin = () => (
-  <Mutation
-    mutation={SIGN_IN_MUTATION}
-    refetchQueries={[{ query: CURRENT_USER_QUERY }]}
-  >
-    {(signIn, { error, loading }) => (
+  <Composed>
+    {({ signInMutation, checkUserExistMutation }) => (
       <Formik
         isInitialValid={false}
         initialValues={{ login: '', password: '' }}
         onSubmit={values => {
-          signIn({ variables: { ...values } }).then(() => {
+          signInMutation.mutation({ variables: { ...values } }).then(() => {
             Router.push('/')
           })
         }}
         render={props => (
           // eslint-disable-next-line
           <AuthForm onSubmit={props.handleSubmit}>
+            <button
+              type="button"
+              className="back"
+              onClick={() => {
+                Router.back()
+              }}
+            >
+              <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
+            </button>
             <Logo />
-            <Error error={error} />
+            <Error error={signInMutation.result.error} />
             <Input
               name="login"
-              label="Login"
-              validate={value => isEmpty(value, 'Login is required')}
+              label="Логин"
+              validate={value => login(value, checkUserExistMutation.mutation)}
             />
             <Input
               name="password"
-              label="Password"
+              label="Пароль"
               type="password"
-              validate={value => isEmpty(value, 'Password is required')}
+              validate={password}
             />
             <div className="button-with-error">
-              <Button loading={loading} type="submit">
-                Login
+              <Button loading={signInMutation.result.loading} type="submit">
+                Войти
               </Button>
             </div>
             {/* <p className="more-info">
@@ -73,12 +104,12 @@ const Signin = () => (
               .
             </p> */}
             <Link href="/request-reset">
-              <a className="forgotten-link">Forgotten your password?</a>
+              <a className="forgotten-link">Забыли пароль?</a>
             </Link>
             <p className="signup-link">
-              No account?{' '}
+              Нет аккаунта?{' '}
               <Link href="/signup">
-                <a>Create one</a>
+                <a>Зарегистрируйте</a>
               </Link>
               .
             </p>
@@ -86,7 +117,7 @@ const Signin = () => (
         )}
       />
     )}
-  </Mutation>
+  </Composed>
 )
 
 export default Signin

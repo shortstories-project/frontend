@@ -5,6 +5,36 @@ const AuthForm = styled.form`
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 2px 10px;
   padding: 40px;
+  .back {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .back {
+      background: transparent;
+      border: none;
+      padding: 0;
+      display: block;
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      img {
+        width: 70%;
+        height: 70%;
+      }
+    }
+  }
 
   .logo {
     cursor: default;
@@ -31,8 +61,8 @@ const AuthForm = styled.form`
   .more-info,
   .forgotten-link,
   .signup-link {
-    font-size: 1rem;
-    line-height: normal;
+    font-size: 12px;
+    line-height: 2;
     text-align: center;
     display: block;
   }
@@ -61,10 +91,12 @@ const AuthForm = styled.form`
   .success-message {
     > p {
       margin: 0;
-
       span {
         color: ${props => props.theme.purple};
       }
+    }
+    @media (max-width: 768px) {
+      text-align: center;
     }
   }
 `
