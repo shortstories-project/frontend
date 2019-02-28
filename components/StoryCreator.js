@@ -143,7 +143,7 @@ export const validate = values => {
   if (!values.title) {
     errors.title = 'Введите заголовок'
   }
-  if (values.body.length < 4000) {
+  if (values.body.length < 1800) {
     errors.body = 'Слишком короткая история'
   }
   if (values.body.length > 40000) {
