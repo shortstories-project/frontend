@@ -204,7 +204,7 @@ class StoryCreator extends PureComponent {
 
   handleScroll = () => {
     const currentScrollPos = window.pageYOffset
-    if (prevScrollpos > currentScrollPos) {
+    if (currentScrollPos <= 0 || prevScrollpos > currentScrollPos) {
       document.querySelector('.header').style.top = '0'
     } else {
       document.querySelector('.header').style.top = '-80px'
