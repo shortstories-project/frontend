@@ -13,7 +13,7 @@
   "author": "Shashkov Danil <shashkovdanil@gmail.com> (https://github.com/shashkovdanil)",
   "license": "MIT",
   "scripts": {
-    "start:dev": "NODE_ENV=development PORT=5555 node server.js",
+    "start:dev": "next -p 5555",
     "build:prod": "next build",
     "start:prod": "NODE_ENV=production node server.js",
     "test": "NODE_ENV=test jest --watch",
@@ -38,6 +38,7 @@
     "next-with-apollo": "^3.3.2",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
+    "polished": "^3.0.3",
     "postcss-preset-env": "^6.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",

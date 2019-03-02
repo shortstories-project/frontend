@@ -19,32 +19,26 @@ Router.onRouteChangeError = () => {
 }
 
 const Logo = styled.h1`
+  margin: 0;
   font-family: var(--logo-font);
   font-size: 3rem;
   letter-spacing: -1.5px;
-  margin-top: 14px;
-  margin-bottom: 14px;
-  margin-left: 20px;
   position: relative;
   z-index: 2;
 
   a {
-    padding: 0 10px;
     color: var(--black);
-  }
-
-  @media (max-width: 1300px) {
-    padding: 12px 0;
-    margin: 0;
-    text-align: center;
   }
 `
 
 const StyledHeader = styled.header`
+  height: 64px;
   position: sticky;
   top: 0;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--white);
   z-index: 1;
+  display: flex;
+  align-items: center;
   .bar {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -52,25 +46,24 @@ const StyledHeader = styled.header`
     align-items: stretch;
     width: 100%;
     max-width: 1024px;
+    padding: 0 24px;
     margin: 0 auto;
-    @media (max-width: 1300px) {
-      grid-template-columns: 1fr;
-      justify-content: center;
-    }
   }
 `
 
-const Header = () => (
-  <StyledHeader>
-    <div className="bar">
-      <Logo>
-        <Link href="/">
-          <a>Shortstories</a>
-        </Link>
-      </Logo>
-      <Nav />
-    </div>
-  </StyledHeader>
-)
+function Header() {
+  return (
+    <StyledHeader>
+      <div className="bar">
+        <Logo>
+          <Link href="/">
+            <a>Shortstories</a>
+          </Link>
+        </Logo>
+        <Nav />
+      </div>
+    </StyledHeader>
+  )
+}
 
 export default Header

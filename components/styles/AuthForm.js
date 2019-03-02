@@ -14,7 +14,6 @@ const AuthForm = styled.form`
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
     border-radius: 0;
     display: flex;
     flex-direction: column;
@@ -27,8 +26,8 @@ const AuthForm = styled.form`
       width: 40px;
       height: 40px;
       position: absolute;
-      top: 5px;
-      left: 10px;
+      top: 10px;
+      left: 15px;
       img {
         width: 70%;
         height: 70%;
