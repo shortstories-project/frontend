@@ -1,8 +1,9 @@
 import React, { Fragment, PureComponent } from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import Head from 'next/head'
 import Router from 'next/router'
 import { Query } from 'react-apollo'
+import cn from 'classnames'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
 import Error from './ErrorMessage'
@@ -70,8 +71,8 @@ const SingleStoryStyles = styled.div`
 
   .title,
   .body-paragraph {
-    font-family: Alegreya, serif;
-    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+    font-family: var(--text-font);
+    color: var(--black);
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -121,6 +122,13 @@ const SingleStoryStyles = styled.div`
       font-size: 1.2rem;
     }
   }
+
+  &.night {
+    .title,
+    .body-paragraph {
+      color: var(--night-grey);
+    }
+  }
 `
 
 const Toolbar = styled.aside`
@@ -132,9 +140,13 @@ const Toolbar = styled.aside`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => (props.night ? '#111' : '#fff')};
+  background-color: #fff;
   transition: background-color 0.45s ease-in-out;
   min-height: 100vh;
+
+  &.night {
+    background-color: #111;
+  }
 `
 
 const Header = styled.div`
@@ -146,47 +158,42 @@ const Header = styled.div`
   top: 0;
   transition: top 0.3s, background-color 0.45s ease-in-out;
   width: 100%;
-  background-color: ${props => (props.night ? '#111' : '#fff')};
+  background-color: #fff;
 
   h2 {
-    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+    color: var(--black);
+  }
+
+  .back,
+  .day-night {
+    position: absolute;
+    background-size: contain;
   }
 
   .back {
-    position: absolute;
     left: 24px;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    background-image: url(${props =>
-      props.night
-        ? '/static/images/icons/left-arrow-grey.svg'
-        : '/static/images/icons/left-arrow.svg'});
-    background-size: contain;
+    background-image: url('/static/images/icons/left-arrow.svg');
     width: 40px;
     height: 40px;
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 
   .day-night {
-    position: absolute;
     right: 24px;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    background-image: url(${props =>
-      props.night
-        ? '/static/images/icons/moon-grey.svg'
-        : '/static/images/icons/moon.svg'});
-    background-size: contain;
+    background-image: url('/static/images/icons/moon.svg');
     width: 34px;
     height: 34px;
-    img {
-      width: 100%;
-      height: 100%;
+  }
+
+  &.night {
+    background-color: #111;
+    h2 {
+      color: var(--night-grey);
+    }
+    .back {
+      background-image: url('/static/images/icons/left-arrow-grey.svg');
+    }
+    .day-night {
+      background-image: url('/static/images/icons/moon-grey.svg');
     }
   }
 `
@@ -239,8 +246,8 @@ class SingleStory extends PureComponent {
               if (!data.story) return <p>Story not found</p>
               const { story, reactions, comments } = data
               return (
-                <Wrapper night={night}>
-                  <Header className="header" night={night}>
+                <Wrapper className={cn({ night })}>
+                  <Header className={cn('header', { night })}>
                     <button
                       className="back"
                       type="button"
@@ -259,7 +266,7 @@ class SingleStory extends PureComponent {
                       }}
                     />
                   </Header>
-                  <SingleStoryStyles night={night}>
+                  <SingleStoryStyles className={cn({ night })}>
                     <Head>
                       <title>Shortstories | {story.title}</title>
                       <meta

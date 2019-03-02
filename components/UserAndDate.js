@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import Router from 'next/router'
 import format from 'date-fns/format'
 import getPhoto from '../lib/get-photo'
@@ -29,12 +29,13 @@ const UserAndDateStyles = styled.div`
     justify-content: center;
     .name {
       display: flex;
-      color: ${props => props.theme.purpleDark};
+      color: var(--soft-violet);
       font-weight: bold;
       position: relative;
+
       &::after {
         content: '';
-        border-bottom: 3px solid ${props => props.theme.purpleDark};
+        border-bottom: 3px solid var(--soft-violet);
         position: absolute;
         width: 0%;
         bottom: -1px;
@@ -46,7 +47,7 @@ const UserAndDateStyles = styled.div`
     }
     .date {
       margin-top: 4px;
-      color: ${props => props.theme.darkGrey};
+      color: var(--dark-grey);
       font-size: 1rem;
     }
   }

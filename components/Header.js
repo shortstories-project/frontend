@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Router from 'next/router'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import NProgress from 'nprogress'
 import Nav from './Nav'
 
@@ -19,25 +19,24 @@ Router.onRouteChangeError = () => {
 }
 
 const Logo = styled.h1`
-  font-family: Pacifico, cursive;
-  font-size: 30px;
+  font-family: var(--logo-font);
+  font-size: 3rem;
   letter-spacing: -1.5px;
   margin-top: 14px;
   margin-bottom: 14px;
-  margin-left: 2rem;
+  margin-left: 20px;
   position: relative;
   z-index: 2;
 
   a {
-    padding: 0 1rem;
-    color: #110000;
+    padding: 0 10px;
+    color: var(--black);
   }
 
   @media (max-width: 1300px) {
-    padding: 1.2rem 0;
+    padding: 12px 0;
     margin: 0;
     text-align: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
   }
 `
 
@@ -47,19 +46,17 @@ const StyledHeader = styled.header`
   background-color: rgba(255, 255, 255, 0.95);
   z-index: 1;
   .bar {
-    box-shadow: ${props => props.theme.bs};
     display: grid;
     grid-template-columns: auto 1fr;
     justify-content: space-between;
     align-items: stretch;
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
     @media (max-width: 1300px) {
       grid-template-columns: 1fr;
       justify-content: center;
     }
-  }
-  .sub-bar {
-    display: grid;
-    grid-template-columns: 1fr auto;
   }
 `
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
+import { styled } from 'linaria/react'
+import cn from 'classnames'
+import { string, bool, object, func, node } from 'prop-types'
 import Loader from './Loader'
 
 const StyledButton = styled.button`
@@ -8,59 +9,52 @@ const StyledButton = styled.button`
   font-size: 14px;
   text-transform: uppercase;
   height: 40px;
-  color: ${props => props.theme.white};
-  border: none;
-  cursor: pointer;
-  background-color: ${props => props.theme.black};
-  outline: none;
+  color: var(--white);
+  background-color: var(--black);
   transition: all 0.25s ease-out;
-  opacity: ${props => (props.disabled || props.loading ? '0.7' : '1')};
-  pointer-events: ${props =>
-    props.disabled || props.loading ? 'none' : 'auto'};
   &:hover {
-    background-color: ${props => props.theme.purple};
+    background-color: var(--soft-violet);
   }
   &:active {
     transform: scale(0.95);
   }
+
+  &.loading {
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+  }
 `
 
 const Button = ({
-  className,
+  className = '',
   children,
-  disabled,
-  type,
-  loading,
+  disabled = false,
+  type = 'button',
+  loading = false,
   onClick,
   style = {},
 }) => (
   <StyledButton
-    className={className}
+    className={cn(className, { loading })}
     onClick={onClick}
     disabled={disabled || loading}
     loading={loading}
     type={type}
-    style={{ ...style }}
+    style={style}
   >
     {loading ? <Loader /> : children}
   </StyledButton>
 )
 
-Button.defaultProps = {
-  className: '',
-  disabled: false,
-  type: 'button',
-  loading: false,
-  onClick: Function.prototype,
-}
-
 Button.propTypes = {
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  type: PropTypes.string,
-  loading: PropTypes.bool,
-  onClick: PropTypes.func,
-  children: PropTypes.node.isRequired,
+  className: string,
+  disabled: bool,
+  type: string,
+  loading: bool,
+  onClick: func,
+  children: node.isRequired,
+  style: object,
 }
 
 export default Button

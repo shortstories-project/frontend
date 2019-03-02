@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 
 const NavStyles = styled.ul`
   margin: 0;
@@ -19,23 +19,12 @@ const NavStyles = styled.ul`
     background: none;
     border: 0;
     cursor: pointer;
-    color: ${props => props.theme.black};
+    color: var(--black);
     font-weight: 800;
     line-height: 14px;
-    &:before {
-      content: '';
-      background-color: ${props => props.theme.black};
-      width: 2px;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      transform: skew(-20deg);
-      top: 0;
-      bottom: 0;
-    }
     &:after {
       height: 2px;
-      background: ${props => props.theme.purpleDark};
+      background: var(--soft-violet);
       content: '';
       width: 0;
       position: absolute;
@@ -53,30 +42,14 @@ const NavStyles = styled.ul`
       }
     }
   }
-  .write img {
-    width: 30px;
-    height: 14px;
-    position: relative;
-    top: -1px;
-  }
   @media (max-width: 1300px) {
     width: 100%;
     justify-content: center;
     font-size: 10px;
+    padding: 1.5rem 3rem;
     > * {
       width: calc(100% / 3);
       padding: 10px;
-      &:first-child::before {
-        content: '';
-        background-color: transparent;
-        width: 2px;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        transform: skew(-20deg);
-        top: 0;
-        bottom: 0;
-      }
     }
   }
 `

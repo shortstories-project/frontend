@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled, { keyframes } from 'styled-components'
+import { styled } from 'linaria/react'
 import ReactModal from 'react-modal'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -75,31 +75,11 @@ const LIKED_STORIES_QUERY = gql`
   }
 `
 
-const toWritten = keyframes`
-  from {
-    left: 85px;
-  }
-
-  to {
-    left: 0px;
-  }
-`
-
-const toLiked = keyframes`
-  from {
-    left: 0px;
-  }
-
-  to {
-    left: 85px;
-  }
-`
-
 const AccountStyles = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   > p {
-    color: ${props => props.theme.white};
+    color: var(--white);
   }
   .photo-edit {
     cursor: pointer;
@@ -124,7 +104,7 @@ const AccountStyles = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: ${props => props.theme.bs};
+      box-shadow: var(--box-shadow);
     }
     .blur {
       width: 100%;
@@ -145,13 +125,13 @@ const AccountStyles = styled.div`
     flex-direction: column;
     align-items: center;
     .username {
-      color: ${props => props.theme.white};
+      color: var(--white);
       font-size: 3.6rem;
       font-weight: bold;
       margin-bottom: 10px;
     }
     .email {
-      color: ${props => props.theme.white};
+      color: var(--white);
       font-size: 1.4rem;
       font-weight: bold;
       margin-bottom: 20px;
@@ -179,7 +159,7 @@ const AccountStyles = styled.div`
           border: none;
           margin: 0;
           padding: 0;
-          color: ${props => props.theme.white};
+          color: var(--white);
           font-size: 1.6rem;
           font-weight: bold;
           background: transparent;
@@ -198,7 +178,17 @@ const AccountStyles = styled.div`
         }
         &::after {
           left: 0;
-          animation: ${toWritten} 0.25s ease;
+          animation: toWritten 0.25s ease;
+
+          @keyframes toWritten {
+            from {
+              left: 85px;
+            }
+
+            to {
+              left: 0px;
+            }
+          }
         }
       }
       .favs {
@@ -207,7 +197,17 @@ const AccountStyles = styled.div`
         }
         &::after {
           left: 85px;
-          animation: ${toLiked} 0.25s ease;
+          animation: toLiked 0.25s ease;
+
+          @keyframes toLiked {
+            from {
+              left: 0px;
+            }
+
+            to {
+              left: 85px;
+            }
+          }
         }
       }
     }

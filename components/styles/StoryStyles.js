@@ -1,11 +1,11 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 
 const StoryStyles = styled.div`
   cursor: pointer;
   opacity: 0.95;
   height: 450px;
   overflow: hidden;
-  background: ${props => props.theme.white};
+  background: var(--white);
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 2px 20px 0 rgba(255, 255, 255, 0.1);
@@ -44,7 +44,7 @@ const StoryStyles = styled.div`
     margin-left: -20px;
     button {
       cursor: pointer;
-      background-color: ${props => props.theme.white};
+      background-color: var(--white);
       outline: none;
       border: none;
       width: 50px;
@@ -59,7 +59,7 @@ const StoryStyles = styled.div`
         height: 20px;
       }
       &:hover {
-        background-color: ${props => props.theme.lightGrey};
+        background-color: var(--light-grey);
       }
     }
   }

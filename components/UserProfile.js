@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -44,11 +44,11 @@ const UserProfileStyles = styled.div`
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      box-shadow: ${props => props.theme.bs};
+      box-shadow: var(--box-shadow);
     }
   }
   > p {
-    color: ${props => props.theme.white};
+    color: var(--white);
   }
   .user-info {
     display: flex;
@@ -56,7 +56,7 @@ const UserProfileStyles = styled.div`
     align-items: center;
     margin-bottom: 40px;
     .username {
-      color: ${props => props.theme.white};
+      color: var(--white);
       font-size: 3.6rem;
       font-weight: bold;
       margin-bottom: 10px;

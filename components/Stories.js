@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import Link from 'next/link'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
@@ -46,15 +46,15 @@ export const STORIES_QUERY = gql`
 
 const NoStories = styled.div`
   h2 {
-    color: ${props => props.theme.white};
+    color: var(--white);
   }
 
   a {
     position: relative;
-    color: ${props => props.theme.yellow};
+    color: var(--yellow);
     &::after {
       content: '';
-      border-bottom: 3px solid ${props => props.theme.yellow};
+      border-bottom: 3px solid var(--yellow);
       position: absolute;
       width: 0%;
       bottom: -1px;
@@ -72,7 +72,7 @@ const NoStories = styled.div`
 
 function Stories() {
   return (
-    <Query query={STORIES_QUERY} fetchPolicy="network-only">
+    <Query query={STORIES_QUERY}>
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />

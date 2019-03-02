@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import PropTypes from 'prop-types'
 import Header from '../components/Header'
 import UserProfile from '../components/UserProfile'
@@ -6,7 +6,7 @@ import UserProfile from '../components/UserProfile'
 const Wrapper = styled.div`
   position: relative;
   min-height: 100%;
-  color: ${props => props.theme.black};
+  color: var(--black);
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 `
 
 const Inner = styled.div`
-  max-width: ${props => props.theme.maxWidth};
+  max-width: 1300px;
   margin: 0 auto;
   padding: 2rem;
 `

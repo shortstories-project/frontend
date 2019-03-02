@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import PropTypes from 'prop-types'
 
 const ErrorStyles = styled.div`

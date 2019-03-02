@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import { Mutation } from 'react-apollo'
 import { Formik } from 'formik'
 import gql from 'graphql-tag'
@@ -48,7 +48,7 @@ const EDIT_STORY_MUTATION = gql`
 const EditForm = styled.form`
   border-radius: 4px;
   min-width: 600px;
-  background-color: ${props => props.theme.white};
+  background-color: var(--white);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -56,10 +56,10 @@ const EditForm = styled.form`
 
   input,
   textarea {
-    font-family: 'Alegreya', serif;
+    font-family: var(--text-font);
     border: 2px solid #b8b8b8;
     outline: none;
-    color: ${props => props.theme.black};
+    color: var(--black);
   }
 
   .title-block {
@@ -89,7 +89,7 @@ const EditForm = styled.form`
   }
 
   .error-message {
-    color: ${props => props.theme.red};
+    color: var(--red);
     font-size: 1.2rem;
     font-weight: bold;
   }

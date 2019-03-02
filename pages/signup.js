@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import Signup from '../components/Signup'
 
 const Wrapper = styled.div`
   position: relative;
   min-height: 100%;
-  color: ${props => props.theme.black};
+  color: var(--black);
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),

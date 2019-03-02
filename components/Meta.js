@@ -58,15 +58,11 @@ function Meta() {
       />
       <link
         rel="preload"
-        href="https://fonts.googleapis.com/css?family=Alegreya|Montserrat:400,600|Pacifico"
+        href="https://fonts.googleapis.com/css?family=Alegreya:400,700|Montserrat:400,600|Pacifico"
         as="fetch"
         crossOrigin="anonymous"
       />
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="/static/styles/nprogress.css"
-      />
+      <link rel="stylesheet" type="text/css" href="/static/styles/global.css" />
       <script
         type="text/javascript"
         src="/static/scripts/google-fonts-fast-render.js"

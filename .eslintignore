@@ -1,3 +1,4 @@
-node_modules
-.next
-static
+node_modules/
+.next/
+.linaria-cache/
+static/

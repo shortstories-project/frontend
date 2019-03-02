@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo'
 import Page from '../components/Page'
 import { initGA, logPageView } from '../lib/google-analytics'
 import withApollo from '../lib/with-apollo'
+import 'normalize.css'
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

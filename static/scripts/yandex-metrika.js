@@ -1,10 +1,1 @@
-(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(52506634, "init", {
-        id:52506634,
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
+!function(e,t,a,n,c,m,i){e.ym=e.ym||function(){(e.ym.a=e.ym.a||[]).push(arguments)},e.ym.l=1*new Date,m=t.createElement(a),i=t.getElementsByTagName(a)[0],m.async=1,m.src="https://mc.yandex.ru/metrika/tag.js",i.parentNode.insertBefore(m,i)}(window,document,"script"),ym(52506634,"init",{id:52506634,clickmap:!0,trackLinks:!0,accurateTrackBounce:!0});

@@ -1,10 +1,7 @@
 import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
-import map from 'ramda/src/map'
-import merge from 'ramda/src/merge'
-import concat from 'ramda/src/concat'
 import gql from 'graphql-tag'
 import { array, object, string, func } from 'prop-types'
 import Button from './Button'
@@ -38,16 +35,13 @@ const Textarea = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
   textarea {
-    border: 1px solid ${props => props.theme.grey};
-    background-color: ${props => props.theme.white};
-    font-family: 'Montserrat', serif;
+    border: 1px solid var(--grey);
+    background-color: var(--white);
+    font-family: var(--ui-font);
     resize: none;
     min-height: 63px;
     padding: 20px;
     font-size: 1.6rem;
-    &:focus {
-      outline-color: ${props => props.theme.black};
-    }
   }
 `
 
@@ -81,7 +75,7 @@ const List = styled.ul`
     button {
       cursor: pointer;
       outline: none;
-      background-color: ${props => props.theme.white};
+      background-color: var(--white);
       border: none;
       width: 50px;
       height: 50px;
@@ -95,18 +89,18 @@ const List = styled.ul`
         height: 20px;
       }
       &:hover {
-        background-color: ${props => props.theme.lightGrey};
+        background-color: var(--light-grey);
       }
     }
   }
 
   li {
     position: relative;
-    background-color: ${props => props.theme.white};
+    background-color: var(--white);
     margin-bottom: 20px;
     border-radius: 4px;
     padding: 20px;
-    border: 1px solid ${props => props.theme.grey};
+    border: 1px solid var(--grey);
     overflow: hidden;
 
     a {
@@ -250,68 +244,69 @@ function CommentsList({
   return edges.length > 0 ? (
     <Fragment>
       <List>
-        {map(
-          comment =>
-            editId === comment.id ? (
-              <CommentEditor
-                resetAfterUpdate={resetAfterUpdate}
-                comment={comment}
-                commentBody={commentBody}
-                onChange={onChange}
-                id={id}
-                me={me}
-              />
-            ) : (
-              <li key={comment.id}>
-                <div className="comment-header">
-                  <UserAndDate
-                    className="user-and-date"
-                    user={comment.user}
-                    date={comment.createdAt}
-                  />
-                  {me.id === comment.user.id && (
-                    <div className="edit-and-delete">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          activateEditMode(comment)
-                        }}
-                      >
-                        <img src="/static/images/icons/edit.svg" alt="Edit" />
-                      </button>
-                      <Mutation
-                        mutation={DELETE_COMMENT_MUTATION}
-                        variables={{ id: comment.id }}
-                        update={(cache, payload) =>
-                          deleteUpdate(cache, payload, id)
-                        }
-                        optimisticResponse={{
-                          __typename: 'Mutation',
-                          deleteComment: {
-                            __typename: 'Comment',
-                            id: comment.id,
-                          },
-                        }}
-                      >
-                        {deleteComment => (
-                          <button
-                            type="button"
-                            onClick={e => {
-                              e.stopPropagation()
-                              deleteComment()
-                            }}
-                          >
-                            <img src="/static/images/icons/cross.svg" alt="Delete" />
-                          </button>
-                        )}
-                      </Mutation>
-                    </div>
-                  )}
-                </div>
-                <p className="body">{comment.body}</p>
-              </li>
-            ),
-          edges
+        {edges.map(comment =>
+          editId === comment.id ? (
+            <CommentEditor
+              resetAfterUpdate={resetAfterUpdate}
+              comment={comment}
+              commentBody={commentBody}
+              onChange={onChange}
+              id={id}
+              me={me}
+            />
+          ) : (
+            <li key={comment.id}>
+              <div className="comment-header">
+                <UserAndDate
+                  className="user-and-date"
+                  user={comment.user}
+                  date={comment.createdAt}
+                />
+                {me.id === comment.user.id && (
+                  <div className="edit-and-delete">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        activateEditMode(comment)
+                      }}
+                    >
+                      <img src="/static/images/icons/edit.svg" alt="Edit" />
+                    </button>
+                    <Mutation
+                      mutation={DELETE_COMMENT_MUTATION}
+                      variables={{ id: comment.id }}
+                      update={(cache, payload) =>
+                        deleteUpdate(cache, payload, id)
+                      }
+                      optimisticResponse={{
+                        __typename: 'Mutation',
+                        deleteComment: {
+                          __typename: 'Comment',
+                          id: comment.id,
+                        },
+                      }}
+                    >
+                      {deleteComment => (
+                        <button
+                          type="button"
+                          onClick={e => {
+                            e.stopPropagation()
+                            deleteComment()
+                          }}
+                        >
+                          <img
+                            src="/static/images/icons/cross.svg"
+                            alt="Delete"
+                          />
+                        </button>
+                      )}
+                    </Mutation>
+                  </div>
+                )}
+              </div>
+              <p className="body">{comment.body}</p>
+            </li>
+          )
         )}
       </List>
       {pageInfo.hasNextPage && (
@@ -328,12 +323,13 @@ function CommentsList({
                 }
 
                 return {
-                  comments: merge(fetchMoreResult.comments, {
-                    edges: concat(
-                      previousResult.comments.edges,
-                      fetchMoreResult.comments.edges
-                    ),
-                  }),
+                  comments: {
+                    ...fetchMoreResult.comments,
+                    edges: [
+                      ...previousResult.comments.edges,
+                      ...fetchMoreResult.comments.edges,
+                    ],
+                  },
                 }
               },
             })

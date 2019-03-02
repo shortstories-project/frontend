@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { map, merge, concat } from 'ramda'
 import { arrayOf, func, shape, string, bool } from 'prop-types'
 import StoryItem from './StoryItem'
 import Button from './Button'
@@ -13,12 +12,13 @@ function loadMoreStories(fetchMore, cursor) {
       !fetchMoreResult
         ? previousResult
         : {
-            stories: merge(fetchMoreResult.stories, {
-              edges: concat(
-                previousResult.stories.edges,
-                fetchMoreResult.stories.edges
-              ),
-            }),
+            stories: {
+              ...fetchMoreResult.stories,
+              edges: [
+                ...previousResult.stories.edges,
+                ...fetchMoreResult.stories.edges,
+              ],
+            },
           },
   })
 }
@@ -27,16 +27,13 @@ function StoriesGrid({ edges, pageInfo, fetchMore, userId }) {
   return (
     <Fragment>
       <StoriesList>
-        {map(
-          story => (
-            <StoryItem
-              isStoryOwner={userId === story.user.id}
-              key={story.id}
-              {...story}
-            />
-          ),
-          edges
-        )}
+        {edges.map(story => (
+          <StoryItem
+            isStoryOwner={userId === story.user.id}
+            key={story.id}
+            {...story}
+          />
+        ))}
       </StoriesList>
       {pageInfo.hasNextPage && (
         <Button

@@ -1,23 +1,5 @@
 import React from 'react'
-import styled, { keyframes } from 'styled-components'
-
-const outerSpin = keyframes`
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(360deg);
-  }
-`
-
-const innerSpin = keyframes`
-  0% {
-      transform: rotate(0deg);
-  }
-  100% {
-      transform: rotate(-360deg);
-  }
-`
+import { styled } from 'linaria/react'
 
 const StyledLoader = styled.div`
   position: relative;
@@ -30,18 +12,27 @@ const StyledLoader = styled.div`
 
 const Outer = styled.div`
   position: absolute;
-  border: 4px solid ${props => props.theme.pink};
+  border: 4px solid var(--pink);
   border-left-color: transparent;
   border-bottom: 0;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  animation: ${outerSpin} 1s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+  animation: outerspin 1s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+
+  @keyframes outerspin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `
 
 const Inner = styled.div`
   position: absolute;
-  border: 4px solid ${props => props.theme.pink};
+  border: 4px solid var(--pink);
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -49,7 +40,16 @@ const Inner = styled.div`
   top: calc(50% - 10px);
   border-right: 0;
   border-top-color: transparent;
-  animation: ${innerSpin} 1.5s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+  animation: innerspin 1.5s cubic-bezier(0.42, 0.61, 0.58, 0.41) infinite;
+
+  @keyframes innerspin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
 `
 
 const Loader = () => (

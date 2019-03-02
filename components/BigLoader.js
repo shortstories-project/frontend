@@ -1,14 +1,5 @@
-import * as React from 'react'
-import styled, { keyframes } from 'styled-components'
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`
+import React from 'react'
+import { styled } from 'linaria/react'
 
 const LoaderStyles = styled.div`
   position: fixed;
@@ -30,7 +21,7 @@ const LoaderStyles = styled.div`
     border: 3px solid transparent;
     border-top-color: #ffffff;
     border-radius: 50%;
-    animation: ${spin} 2s linear infinite;
+    animation: spin 2s linear infinite;
     &::before {
       content: '';
       position: absolute;
@@ -41,7 +32,7 @@ const LoaderStyles = styled.div`
       border: 3px solid transparent;
       border-top-color: #e5e5e5;
       border-radius: 50%;
-      animation: ${spin} 3s linear infinite;
+      animation: spin 3s linear infinite;
     }
     &::after {
       content: '';
@@ -53,7 +44,15 @@ const LoaderStyles = styled.div`
       border: 3px solid transparent;
       border-top-color: #cccccc;
       border-radius: 50%;
-      animation: ${spin} 1.5s linear infinite;
+      animation: spin 1.5s linear infinite;
+    }
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
   }
 `

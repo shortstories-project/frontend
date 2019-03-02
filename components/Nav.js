@@ -10,10 +10,7 @@ const Nav = () => (
         {me && (
           <>
             <Link href="/create-story">
-              <a className="write">
-                Написать рассказ
-                <img src="/static/images/icons/pen.svg" alt="" />
-              </a>
+              <a>Написать рассказ</a>
             </Link>
             <Link href="/me">
               <a>Профиль</a>

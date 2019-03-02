@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 
 const ToolsBar = styled.div`
   background: linear-gradient(
@@ -14,7 +14,6 @@ const ToolsBar = styled.div`
   padding-left: 20px;
   padding-right: 20px;
   position: absolute;
-  width: 100%;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 

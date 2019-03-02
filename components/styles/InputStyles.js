@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 
 const InputStyles = styled.div`
   display: flex;
@@ -18,8 +18,8 @@ const InputStyles = styled.div`
     position: relative;
     display: block;
     float: right;
-    font-family: 'Montserrat', sans-serif;
-    border: ${props => props.theme.black};
+    font-family: var(--ui-font);
+    border: var(--black);
     border-radius: 0;
     padding: 0.5em 0em 0.5em;
     width: 100%;
@@ -28,25 +28,32 @@ const InputStyles = styled.div`
     color: black;
     font-size: 1.25em;
     + .label {
-      color: ${props => (!props.isEmpty ? props.theme.black : '#6a7989')};
-      transform: ${props =>
-        !props.isEmpty
-          ? 'translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1)'
-          : 'initial'};
+      color: var(--black);
+      transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
     }
     ~ .line {
-      stroke: ${props => (!props.isEmpty ? props.theme.black : '#92989e')};
-      transform: ${props =>
-        !props.isEmpty ? 'translate3d(-66.6%, 0, 0)' : 'initial'};
+      stroke: var(--black);
+      transform: translate3d(-66.6%, 0, 0);
+    }
+    &.empty {
+      + .label {
+        color: #6a7989;
+        transform: initial;
+      }
+
+      ~ .line {
+        stroke: #92989e;
+        transform: initial;
+      }
     }
     &:focus {
       outline: none;
       + .label {
-        color: ${props => props.theme.black};
+        color: var(--black);
         transform: translate3d(0, -1.25em, 0) scale3d(0.75, 0.75, 1);
       }
       ~ .line {
-        stroke: ${props => props.theme.black};
+        stroke: var(--black);
         transform: translate3d(-66.6%, 0, 0);
       }
     }
@@ -94,8 +101,8 @@ const InputStyles = styled.div`
     font-weight: normal;
     line-height: normal;
     text-shadow: none;
-    color: ${props => props.theme.red};
-    font-family: 'Montserrat', sans-serif;
+    color: var(--red);
+    font-family: var(--ui-font);
   }
 `
 

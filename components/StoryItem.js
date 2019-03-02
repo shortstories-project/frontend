@@ -1,10 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import Router from 'next/router'
-import { withState } from 'recompose'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
-import { func, bool, string, number, shape } from 'prop-types'
-import filter from 'ramda/src/filter'
+import { bool, string, number, shape } from 'prop-types'
 import EditingStoryModal from './EditingStoryModal'
 import UserAndDate from './UserAndDate'
 import StoryStyles from './styles/StoryStyles'
@@ -22,9 +20,8 @@ const DELETE_STORY_MUTATION = gql`
 
 function update(cache, payload) {
   const data = cache.readQuery({ query: STORIES_QUERY })
-  data.stories.edges = filter(
-    story => story.id !== payload.data.deleteStory.id,
-    data.stories.edges
+  data.stories.edges = data.stories.edges.filter(
+    story => story.id !== payload.data.deleteStory.id
   )
   cache.writeQuery({
     query: STORIES_QUERY,
@@ -40,9 +37,8 @@ function StoryItem({
   createdAt,
   title,
   body,
-  isOpenModal,
-  toggleModal,
 }) {
+  const [isOpenModal, toggleModal] = useState(false)
   return (
     <Fragment>
       <StoryStyles
@@ -98,11 +94,17 @@ function StoryItem({
               <span>{stats.likes}</span>
             </div>
             <div>
-              <img src="/static/images/icons/dislike-fill-gray.svg" alt="dislike" />
+              <img
+                src="/static/images/icons/dislike-fill-gray.svg"
+                alt="dislike"
+              />
               <span>{stats.dislikes}</span>
             </div>
             <div>
-              <img src="/static/images/icons/comment-fill-gray.svg" alt="comments" />
+              <img
+                src="/static/images/icons/comment-fill-gray.svg"
+                alt="comments"
+              />
               <span>{stats.comments}</span>
             </div>
           </div>
@@ -133,8 +135,6 @@ StoryItem.propTypes = {
     dislikes: number,
   }),
   isStoryOwner: bool.isRequired,
-  isOpenModal: bool.isRequired,
-  toggleModal: func.isRequired,
 }
 
-export default withState('isOpenModal', 'toggleModal', false)(StoryItem)
+export default StoryItem

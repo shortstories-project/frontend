@@ -1,6 +1,6 @@
 import 'react-image-crop/dist/ReactCrop.css'
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import PropTypes from 'prop-types'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'

@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 
 const AuthForm = styled.form`
-  background-color: ${props => props.theme.white};
+  background-color: var(--white);
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 2px 10px;
   padding: 40px;
@@ -38,11 +38,11 @@ const AuthForm = styled.form`
 
   .logo {
     cursor: default;
-    font-family: 'Pacifico', cursive;
+    font-family: var(--logo-font);
     font-size: 3rem;
     line-height: 3rem;
     letter-spacing: -1.5px;
-    color: ${props => props.theme.black};
+    color: var(--black);
     text-shadow: 3px 3px 0 rgba(200, 200, 200, 0.5);
     margin-top: 0;
     margin-bottom: 0;
@@ -92,7 +92,7 @@ const AuthForm = styled.form`
     > p {
       margin: 0;
       span {
-        color: ${props => props.theme.purple};
+        color: var(--soft-violet);
       }
     }
     @media (max-width: 768px) {

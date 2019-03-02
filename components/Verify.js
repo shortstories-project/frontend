@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import PropTypes from 'prop-types'
@@ -9,7 +9,7 @@ import Logo from './Logo'
 
 const Block = styled.div`
   min-height: 204px;
-  background-color: ${props => props.theme.white};
+  background-color: var(--white);
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 2px 10px;
   padding: 40px;

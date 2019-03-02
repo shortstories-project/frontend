@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import Router from 'next/router'
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
+import cn from 'classnames'
 import { Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import { Formik } from 'formik'
@@ -24,9 +25,12 @@ const CREATE_STORY_MUTATION = gql`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => (props.night ? '#111' : '#fff')};
+  background-color: #fff;
   transition: background-color 0.45s ease-in-out;
   min-height: 100vh;
+  &.night {
+    background-color: #111;
+  }
 `
 
 const Header = styled.div`
@@ -38,47 +42,43 @@ const Header = styled.div`
   top: 0;
   transition: top 0.3s, background-color 0.45s ease-in-out;
   width: 100%;
-  background-color: ${props => (props.night ? '#111' : '#fff')};
+  background-color: #fff;
 
   h2 {
-    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+    color: var(--black);
+  }
+
+  .back,
+  .day-night {
+    position: absolute;
+    background-size: contain;
   }
 
   .back {
-    position: absolute;
     left: 24px;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    background-image: url(${props =>
-      props.night
-        ? '/static/images/icons/left-arrow-grey.svg'
-        : '/static/images/icons/left-arrow.svg'});
-    background-size: contain;
+    background-image: url('/static/images/icons/left-arrow.svg');
     width: 40px;
     height: 40px;
-    img {
-      width: 100%;
-      height: 100%;
-    }
   }
 
   .day-night {
     position: absolute;
     right: 24px;
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    background-image: url(${props =>
-      props.night
-        ? '/static/images/icons/moon-grey.svg'
-        : '/static/images/icons/moon.svg'});
-    background-size: contain;
+    background-image: url('/static/images/icons/moon.svg');
     width: 34px;
     height: 34px;
-    img {
-      width: 100%;
-      height: 100%;
+  }
+
+  &.night {
+    background-color: #111;
+    h2 {
+      color: var(--night-grey);
+    }
+    .back {
+      background-image: url('/static/images/icons/left-arrow-grey.svg');
+    }
+    .day-night {
+      background-image: url('/static/images/icons/moon-grey.svg');
     }
   }
 `
@@ -98,10 +98,10 @@ const FormStyles = styled.form`
   input,
   textarea {
     width: 100%;
-    font-family: Alegreya, serif;
+    font-family: var(--text-font);
     border: none;
     outline: none;
-    color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+    color: var(--black);
     background: transparent;
   }
 
@@ -123,7 +123,7 @@ const FormStyles = styled.form`
   }
 
   .error-message {
-    color: ${props => props.theme.red};
+    color: var(--red);
     font-size: 1.2rem;
     font-weight: bold;
   }
@@ -133,8 +133,18 @@ const FormStyles = styled.form`
     width: auto;
     margin: 30px 0;
     padding: 1px 0;
-    color: ${props => (props.night ? props.theme.black : props.theme.white)};
-    background-color: ${props => (props.night ? '#b8b8b8' : props.theme.black)};
+  }
+
+  &.night {
+    input,
+    textarea {
+      color: var(--night-grey);
+    }
+
+    button {
+      color: var(--black);
+      background-color: var(--night-grey);
+    }
   }
 `
 
@@ -246,8 +256,8 @@ class StoryCreator extends PureComponent {
                   handleSubmit,
                 }) => (
                   <PleaseSignIn isAuth={!!me}>
-                    <Wrapper night={night}>
-                      <Header className="header" night={night}>
+                    <Wrapper className={cn({ night })}>
+                      <Header className={cn('header', { night })}>
                         <button
                           className="back"
                           type="button"
@@ -266,7 +276,10 @@ class StoryCreator extends PureComponent {
                           }}
                         />
                       </Header>
-                      <FormStyles night={night} onSubmit={handleSubmit}>
+                      <FormStyles
+                        className={cn({ night })}
+                        onSubmit={handleSubmit}
+                      >
                         <Error error={error} />
                         <div className="title-block">
                           <input

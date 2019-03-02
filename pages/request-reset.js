@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import { styled } from 'linaria/react'
 import RequestReset from '../components/RequestReset'
 
 const Wrapper = styled.div`
   position: relative;
   min-height: 100%;
-  color: ${props => props.theme.black};
+  color: var(--black);
   &::before {
     content: '';
     background-image: url('/static/images/topography.svg'),

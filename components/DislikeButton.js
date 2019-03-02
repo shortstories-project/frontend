@@ -1,6 +1,7 @@
 import React from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import cn from 'classnames'
 import PropTypes from 'prop-types'
 import ReactionButtonStyles from './styles/ReactionButtonStyles'
 import { STORY_DATA_QUERY } from './SingleStory'
@@ -29,7 +30,7 @@ function DislikeButton({ id, qty, isDisliked, night }) {
       ]}
     >
       {dislikeStory => (
-        <ReactionButtonStyles night={night}>
+        <ReactionButtonStyles className={cn({ night })}>
           <button
             type="button"
             onClick={() => {
