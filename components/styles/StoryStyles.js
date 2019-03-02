@@ -27,12 +27,13 @@ const StoryStyles = styled.div`
     margin: 1rem 0;
     font-size: 2.4rem;
     font-weight: bold;
-    font-family: 'Alegreya', serif;
+    font-family: var(--text-font);
+    line-height: 1.2;
   }
 
   .body {
     font-size: 1.6rem;
-    font-family: 'Alegreya', serif;
+    font-family: var(--text-font);
   }
 
   .edit-and-delete {

@@ -72,7 +72,7 @@ const NoStories = styled.div`
 
 function Stories() {
   return (
-    <Query query={STORIES_QUERY}>
+    <Query query={STORIES_QUERY} fetchPolicy="cache-and-network">
       {({ data: { stories }, loading, error, fetchMore }) => {
         if (loading) return <BigLoader />
         if (error) return <ErrorMessage error={error} />

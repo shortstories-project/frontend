@@ -6,8 +6,44 @@ import PropTypes from 'prop-types'
 import BigLoader from './BigLoader'
 import Error from './ErrorMessage'
 import StoriesGrid from './StoriesGrid'
-import { STORIES_QUERY } from './Stories'
 import getPhoto from '../lib/get-photo'
+
+const USER_STORIES_QUERY = gql`
+  query USER_STORIES_QUERY(
+    $cursor: String
+    $limit: Int
+    $userId: ID
+    $isLiked: Boolean
+  ) {
+    stories(cursor: $cursor, limit: $limit, userId: $userId, isLiked: $isLiked)
+      @connection(key: "StoriesConnection") {
+      edges {
+        id
+        title
+        body
+        user {
+          ...author
+        }
+        stats {
+          likes
+          dislikes
+          comments
+        }
+        createdAt
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+
+  fragment author on User {
+    id
+    username
+    photo
+  }
+`
 
 export const USER_QUERY = gql`
   query USER_QUERY($id: ID!) {
@@ -82,7 +118,11 @@ function UserProfile({ id }) {
               </div>
               <span className="username">{data.user.username}</span>
             </div>
-            <Query query={STORIES_QUERY} variables={{ userId: id }}>
+            <Query
+              query={USER_STORIES_QUERY}
+              variables={{ userId: id }}
+              fetchPolicy="cache-and-network"
+            >
               {({ data: { stories }, loading, error, fetchMore }) => {
                 if (loading) return <BigLoader />
                 if (error) return <Error error={error} />

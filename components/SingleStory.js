@@ -159,6 +159,7 @@ const Header = styled.div`
   transition: top 0.3s, background-color 0.45s ease-in-out;
   width: 100%;
   background-color: #fff;
+  z-index: 999;
 
   h2 {
     color: var(--black);
