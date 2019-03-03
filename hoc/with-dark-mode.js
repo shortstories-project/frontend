@@ -5,7 +5,7 @@ function withDarkMode(Component) {
   return function WithDarkModeComponent(props) {
     const [mode, setMode] = useState('light')
     useEffect(() => {
-      let initialMode
+      let initialMode = 'light'
       const modeFromLS = localStorage.getItem('theme')
       const currentHour = new Date().getHours()
 
