@@ -1,3 +1,3 @@
-export default (process.env.NODE_ENV === 'production'
-  ? 'https://shortstories.io/graphql'
-  : 'http://localhost:4444/graphql')
+export default (process.env.NODE_ENV === 'development'
+  ? 'http://localhost:4444/graphql'
+  : process.env.API_URL)
