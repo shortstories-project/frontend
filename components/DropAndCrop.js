@@ -39,6 +39,25 @@ const CropStyles = styled.div`
     display: flex;
     width: 100%;
     button {
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      height: 40px;
+      color: #f5f5f5;
+      background-color: #272727;
+      transition: all 0.25s ease-out;
+      &:hover {
+        background-color: #6d47d9;
+      }
+      &:active {
+        transform: scale(0.95);
+      }
+
+      &.loading {
+        cursor: not-allowed;
+        opacity: 0.7;
+        pointer-events: none;
+      }
       width: 50%;
       &:last-child {
         background-color: #32cd32;
@@ -62,6 +81,10 @@ const StyledDropzone = styled.div`
   justify-content: center;
   flex-direction: column;
   cursor: pointer;
+  img {
+    width: 80px;
+    height: 80px;
+  }
   > input {
     width: 100%;
   }

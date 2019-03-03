@@ -1,14 +1,13 @@
-import React, { Fragment, PureComponent } from 'react'
+import React, { Fragment } from 'react'
 import { styled } from 'linaria/react'
 import Head from 'next/head'
-import Router from 'next/router'
 import { Query } from 'react-apollo'
 import cn from 'classnames'
 import gql from 'graphql-tag'
-import PropTypes from 'prop-types'
+import { string } from 'prop-types'
+import withDarkMode from '../hoc/with-dark-mode'
 import Error from './ErrorMessage'
 import UserAndDate from './UserAndDate'
-import Logo from './Logo'
 import BigLoader from './BigLoader'
 import LikeButton from './LikeButton'
 import DislikeButton from './DislikeButton'
@@ -123,7 +122,7 @@ const SingleStoryStyles = styled.div`
     }
   }
 
-  &.night {
+  &.dark {
     .title,
     .body-paragraph {
       color: var(--night-grey);
@@ -144,220 +143,122 @@ const Wrapper = styled.div`
   transition: background-color 0.45s ease-in-out;
   min-height: 100vh;
 
-  &.night {
+  &.dark {
     background-color: #111;
   }
 `
 
-const Header = styled.div`
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  transition: top 0.3s, background-color 0.45s ease-in-out;
-  width: 100%;
-  background-color: #fff;
-  z-index: 999;
-
-  h2 {
-    color: var(--black);
-  }
-
-  .back,
-  .day-night {
-    position: absolute;
-    background-size: contain;
-  }
-
-  .back {
-    left: 24px;
-    background-image: url('/static/images/icons/left-arrow.svg');
-    width: 40px;
-    height: 40px;
-  }
-
-  .day-night {
-    right: 24px;
-    background-image: url('/static/images/icons/moon.svg');
-    width: 34px;
-    height: 34px;
-  }
-
-  &.night {
-    background-color: #111;
-    h2 {
-      color: var(--night-grey);
-    }
-    .back {
-      background-image: url('/static/images/icons/left-arrow-grey.svg');
-    }
-    .day-night {
-      background-image: url('/static/images/icons/moon-grey.svg');
-    }
-  }
-`
-
-let prevScrollpos
-
-try {
-  prevScrollpos = window.pageYOffset
-} catch (e) {
-  // Nothing
+function SingleStory({ mode, id }) {
+  return (
+    <User>
+      {({ data: { me } }) => (
+        <Query
+          query={STORY_DATA_QUERY}
+          variables={{ id, limit: 10 }}
+          fetchPolicy="cache-first"
+        >
+          {({ error, loading, data, fetchMore }) => {
+            if (error) return <Error error={error} />
+            if (loading) return <BigLoader />
+            if (!data.story) return <p>Story not found</p>
+            const { story, reactions, comments } = data
+            return (
+              <Wrapper className={cn({ dark: mode === 'dark' })}>
+                <SingleStoryStyles className={cn({ dark: mode === 'dark' })}>
+                  <Head>
+                    <title>Shortstories | {story.title}</title>
+                    <meta
+                      name="title"
+                      content={`Shortstories | ${story.title}`}
+                    />
+                    <meta
+                      name="description"
+                      content={`${story.body.slice(0, 100)}...`}
+                    />
+                    <meta
+                      property="og:site_name"
+                      content={`Shortstories | ${story.title}`}
+                    />
+                    <meta
+                      property="og:title"
+                      content={`Shortstories | ${story.title}`}
+                    />
+                    <meta
+                      property="og:description"
+                      content={`${story.body.slice(0, 100)}...`}
+                    />
+                    <meta
+                      name="twitter:title"
+                      content={`Shortstories | ${story.title}`}
+                    />
+                    <meta
+                      name="twitter:text:title"
+                      content={`Shortstories | ${story.title}`}
+                    />
+                    <meta
+                      name="twitter:description"
+                      content={`${story.body.slice(0, 100)}...`}
+                    />
+                  </Head>
+                  <UserAndDate user={story.user} date={story.createdAt} />
+                  <h1 className="title">{story.title}</h1>
+                  {story.body
+                    .split('\n')
+                    .filter(paragraph => paragraph !== '')
+                    .map((paragraph, index) => (
+                      <p key={index} className="body-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                </SingleStoryStyles>
+                {me && (
+                  <Fragment>
+                    <Toolbar>
+                      <div className="reaction-buttons">
+                        <LikeButton
+                          night={mode === 'dark'}
+                          id={id}
+                          qty={story.stats.likes}
+                          isLiked={reactions.some(
+                            reaction =>
+                              reaction.userId === me.id &&
+                              reaction.state === 'like'
+                          )}
+                          reactions={reactions}
+                        />
+                        <DislikeButton
+                          night={mode === 'dark'}
+                          id={id}
+                          qty={story.stats.dislikes}
+                          isDisliked={reactions.some(
+                            reaction =>
+                              reaction.userId === me.id &&
+                              reaction.state === 'dislike'
+                          )}
+                        />
+                      </div>
+                    </Toolbar>
+                    <Comments
+                      {...comments}
+                      id={id}
+                      me={me}
+                      fetchMore={fetchMore}
+                    />
+                  </Fragment>
+                )}
+              </Wrapper>
+            )
+          }}
+        </Query>
+      )}
+    </User>
+  )
 }
 
-class SingleStory extends PureComponent {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-  }
-
-  state = {
-    night: false,
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll = () => {
-    const currentScrollPos = window.pageYOffset
-    if (currentScrollPos <= 0 || prevScrollpos > currentScrollPos) {
-      document.querySelector('.header').style.top = '0'
-    } else {
-      document.querySelector('.header').style.top = '-80px'
-    }
-    prevScrollpos = currentScrollPos
-  }
-
-  render() {
-    const { id } = this.props
-    const { night } = this.state
-    return (
-      <User>
-        {({ data: { me } }) => (
-          <Query query={STORY_DATA_QUERY} variables={{ id, limit: 10 }}>
-            {({ error, loading, data, fetchMore }) => {
-              if (error) return <Error error={error} />
-              if (loading) return <BigLoader />
-              if (!data.story) return <p>Story not found</p>
-              const { story, reactions, comments } = data
-              return (
-                <Wrapper className={cn({ night })}>
-                  <Header className={cn('header', { night })}>
-                    <button
-                      className="back"
-                      type="button"
-                      onClick={() => {
-                        Router.back()
-                      }}
-                    />
-                    <Logo />
-                    <button
-                      type="button"
-                      className="day-night"
-                      onClick={() => {
-                        this.setState(state => ({
-                          night: !state.night,
-                        }))
-                      }}
-                    />
-                  </Header>
-                  <SingleStoryStyles className={cn({ night })}>
-                    <Head>
-                      <title>Shortstories | {story.title}</title>
-                      <meta
-                        name="title"
-                        content={`Shortstories | ${story.title}`}
-                      />
-                      <meta
-                        name="description"
-                        content={`${story.body.slice(0, 100)}...`}
-                      />
-                      <meta
-                        property="og:site_name"
-                        content={`Shortstories | ${story.title}`}
-                      />
-                      <meta
-                        property="og:title"
-                        content={`Shortstories | ${story.title}`}
-                      />
-                      <meta
-                        property="og:description"
-                        content={`${story.body.slice(0, 100)}...`}
-                      />
-                      <meta
-                        name="twitter:title"
-                        content={`Shortstories | ${story.title}`}
-                      />
-                      <meta
-                        name="twitter:text:title"
-                        content={`Shortstories | ${story.title}`}
-                      />
-                      <meta
-                        name="twitter:description"
-                        content={`${story.body.slice(0, 100)}...`}
-                      />
-                    </Head>
-                    <UserAndDate user={story.user} date={story.createdAt} />
-                    <h1 className="title">{story.title}</h1>
-                    {story.body
-                      .split('\n')
-                      .filter(paragraph => paragraph !== '')
-                      .map((paragraph, index) => (
-                        <p key={index} className="body-paragraph">
-                          {paragraph}
-                        </p>
-                      ))}
-                  </SingleStoryStyles>
-                  {me && (
-                    <Fragment>
-                      <Toolbar>
-                        <div className="reaction-buttons">
-                          <LikeButton
-                            night={night}
-                            id={id}
-                            qty={story.stats.likes}
-                            isLiked={reactions.some(
-                              reaction =>
-                                reaction.userId === me.id &&
-                                reaction.state === 'like'
-                            )}
-                            reactions={reactions}
-                          />
-                          <DislikeButton
-                            night={night}
-                            id={id}
-                            qty={story.stats.dislikes}
-                            isDisliked={reactions.some(
-                              reaction =>
-                                reaction.userId === me.id &&
-                                reaction.state === 'dislike'
-                            )}
-                          />
-                        </div>
-                      </Toolbar>
-                      <Comments
-                        {...comments}
-                        id={id}
-                        me={me}
-                        fetchMore={fetchMore}
-                      />
-                    </Fragment>
-                  )}
-                </Wrapper>
-              )
-            }}
-          </Query>
-        )}
-      </User>
-    )
-  }
+SingleStory.propTypes = {
+  mode: string.isRequired,
+  id: string.isRequired,
 }
 
-export default SingleStory
+export default withDarkMode(SingleStory)
 export { STORY_DATA_QUERY }

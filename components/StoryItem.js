@@ -52,7 +52,7 @@ function StoryItem({
               type="button"
               onClick={event => {
                 event.stopPropagation()
-                toggleModal(true)
+                Router.push(`/edit-story?id=${id}`)
               }}
             >
               <img src="/static/images/icons/edit.svg" alt="Edit" />
@@ -90,19 +90,19 @@ function StoryItem({
         <ToolsBar>
           <div className="buttons-container">
             <div>
-              <img src="/static/images/icons/like-fill-gray.svg" alt="like" />
+              <img src="/static/images/icons/like-fill-grey.svg" alt="like" />
               <span>{stats.likes}</span>
             </div>
             <div>
               <img
-                src="/static/images/icons/dislike-fill-gray.svg"
+                src="/static/images/icons/dislike-fill-grey.svg"
                 alt="dislike"
               />
               <span>{stats.dislikes}</span>
             </div>
             <div>
               <img
-                src="/static/images/icons/comment-fill-gray.svg"
+                src="/static/images/icons/comment-fill-grey.svg"
                 alt="comments"
               />
               <span>{stats.comments}</span>

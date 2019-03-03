@@ -28,6 +28,11 @@ const ReactionButtonStyles = styled.div`
       transform: scale(0.88);
     }
 
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
     @keyframes pulse {
       0% {
         box-shadow: 0 0 0 0 rgba(109, 71, 217, 0.4);

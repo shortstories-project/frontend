@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { shape, string } from 'prop-types'
 import SingleStory from '../components/SingleStory'
 
 function Story({ query }) {
@@ -7,7 +7,9 @@ function Story({ query }) {
 }
 
 Story.propTypes = {
-  query: PropTypes.shape().isRequired,
+  query: shape({
+    id: string.isRequired,
+  }).isRequired,
 }
 
 export default Story
