@@ -2,22 +2,26 @@ import React, { useState } from 'react'
 import Router from 'next/router'
 import { styled } from 'linaria/react'
 import cn from 'classnames'
-import { Mutation } from 'react-apollo'
+import { Mutation, Query } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import { Formik } from 'formik'
 import gql from 'graphql-tag'
 import nanoid from 'nanoid'
 import { string } from 'prop-types'
 import withDarkMode from '../hoc/with-dark-mode'
+import Autocomplete from './Autocomplete'
 import Button from './Button'
 import Error from './ErrorMessage'
-import User from './User'
-import PleaseSignIn from './PleaseSignIn'
 import { STORIES_QUERY } from './Stories'
+import { GENRES_QUERY } from '../lib/queries'
 
 const CREATE_STORY_MUTATION = gql`
-  mutation CREATE_STORY_MUTATION($title: String!, $body: String!) {
-    createStory(title: $title, body: $body) {
+  mutation CREATE_STORY_MUTATION(
+    $title: String!
+    $body: String!
+    $genreId: ID!
+  ) {
+    createStory(title: $title, body: $body, genreId: $genreId) {
       id
       body
       title
@@ -57,7 +61,7 @@ const FormStyles = styled.form`
   }
 
   .title-block {
-    input {
+    > input {
       font-size: 3rem;
       font-weight: bold;
       margin-bottom: 4px;
@@ -110,6 +114,9 @@ export const validate = values => {
   if (values.body.length > 40000) {
     errors.body = 'Слишком длинная история'
   }
+  if (values.genreId === null) {
+    errors.genreId = 'Выберите жанр'
+  }
   return errors
 }
 
@@ -129,46 +136,52 @@ function update(cache, payload) {
 const INITIAL_VALUES = {
   title: '',
   body: '',
+  genreId: null,
 }
 
 function StoryCreator({ mode }) {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+  const [genreId, setGenreId] = useState(null)
   return (
-    <User>
-      {({ data: { me } }) => (
-        <Mutation
-          mutation={CREATE_STORY_MUTATION}
-          update={update}
-          optimisticResponse={{
-            __typename: 'Mutation',
-            createStory: {
-              __typename: 'Story',
-              id: nanoid(10),
-              title,
-              body,
-            },
-          }}
-        >
-          {(createStory, { loading, error }) => (
-            <Formik
-              initialValues={INITIAL_VALUES}
-              validate={validate}
-              isInitialValid={false}
-              onSubmit={async values => {
-                await createStory({ variables: { ...values } })
-                Router.push('/me')
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-              }) => (
-                <PleaseSignIn isAuth={!!me}>
+    <Query query={GENRES_QUERY}>
+      {({ data }) => {
+        const { genres = [] } = data
+        return (
+          <Mutation
+            mutation={CREATE_STORY_MUTATION}
+            update={update}
+            optimisticResponse={{
+              __typename: 'Mutation',
+              createStory: {
+                __typename: 'Story',
+                id: nanoid(10),
+                title,
+                body,
+                genreId,
+              },
+            }}
+          >
+            {(createStory, { loading, error }) => (
+              <Formik
+                initialValues={INITIAL_VALUES}
+                validate={validate}
+                isInitialValid={false}
+                onSubmit={async values => {
+                  console.log(values.genreId)
+                  await createStory({ variables: { ...values } })
+                  Router.push('/me')
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  setFieldValue,
+                }) => (
                   <Wrapper className={cn({ dark: mode === 'dark' })}>
                     <FormStyles
                       className={cn({ dark: mode === 'dark' })}
@@ -194,6 +207,22 @@ function StoryCreator({ mode }) {
                           <span className="error-message">{errors.title}</span>
                         )}
                       </div>
+                      <div className="title-block">
+                        <Autocomplete
+                          items={genres}
+                          stringField="name"
+                          input={{ name: 'genre', placeholder: 'Выбери жанр' }}
+                          onSelect={item => {
+                            setFieldValue('genreId', item.id)
+                            setGenreId(item.id)
+                          }}
+                        />
+                        {errors.genreId && touched.genreId && (
+                          <span className="error-message">
+                            {errors.genreId}
+                          </span>
+                        )}
+                      </div>
                       <div className="body-block">
                         <ReactTextareaAutosize
                           placeholder="Расскажи историю..."
@@ -215,13 +244,13 @@ function StoryCreator({ mode }) {
                       </Button>
                     </FormStyles>
                   </Wrapper>
-                </PleaseSignIn>
-              )}
-            </Formik>
-          )}
-        </Mutation>
-      )}
-    </User>
+                )}
+              </Formik>
+            )}
+          </Mutation>
+        )
+      }}
+    </Query>
   )
 }
 

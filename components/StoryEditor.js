@@ -15,8 +15,13 @@ import PleaseSignIn from './PleaseSignIn'
 import { STORY_DATA_QUERY } from './SingleStory'
 
 const EDIT_STORY_MUTATION = gql`
-  mutation EDIT_STORY_MUTATION($id: ID!, $body: String!, $title: String!) {
-    updateStory(id: $id, body: $body, title: $title) {
+  mutation EDIT_STORY_MUTATION(
+    $id: ID!
+    $body: String!
+    $title: String!
+    $genreId: ID!
+  ) {
+    updateStory(id: $id, body: $body, title: $title, genreId: $genreId) {
       id
       title
       body

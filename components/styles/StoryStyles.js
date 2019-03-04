@@ -1,6 +1,6 @@
 import { styled } from 'linaria/react'
 
-const StoryStyles = styled.div`
+const StoryStyles = styled.article`
   cursor: pointer;
   opacity: 0.95;
   height: 450px;
@@ -23,6 +23,17 @@ const StoryStyles = styled.div`
     font-weight: bold;
     font-family: var(--text-font);
     line-height: 1.2;
+  }
+
+  .genre {
+    color: var(--white);
+    border-radius: 8px;
+    background-color: var(--soft-violet);
+    padding: 6px 8px;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
   }
 
   .body {

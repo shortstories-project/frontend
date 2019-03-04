@@ -20,6 +20,10 @@ export const STORIES_QUERY = gql`
         id
         title
         body
+        genre {
+          id
+          name
+        }
         user {
           ...author
         }

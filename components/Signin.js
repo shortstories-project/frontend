@@ -5,6 +5,7 @@ import { Mutation } from 'react-apollo'
 import { adopt } from 'react-adopt'
 import gql from 'graphql-tag'
 import { Formik } from 'formik'
+import { string } from 'prop-types'
 import AuthForm from './styles/AuthForm'
 import Input from './Input'
 import Error from './ErrorMessage'
@@ -47,48 +48,55 @@ const Composed = adopt({
   ),
 })
 
-const Signin = () => (
-  <Composed>
-    {({ signInMutation, checkUserExistMutation }) => (
-      <Formik
-        isInitialValid={false}
-        initialValues={{ login: '', password: '' }}
-        onSubmit={values => {
-          signInMutation.mutation({ variables: { ...values } }).then(() => {
-            Router.push('/')
-          })
-        }}
-        render={props => (
-          // eslint-disable-next-line
-          <AuthForm onSubmit={props.handleSubmit}>
-            <button
-              type="button"
-              className="back"
-              onClick={() => {
-                Router.back()
-              }}
-            >
-              <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
-            </button>
-            <Logo />
-            <Error error={signInMutation.result.error} />
-            <Input
-              name="login"
-              label="Логин"
-              validate={value => login(value, checkUserExistMutation.mutation)}
-            />
-            <Input
-              name="password"
-              label="Пароль"
-              type="password"
-              validate={password}
-            />
-            <div className="button-with-error">
-              <Button loading={signInMutation.result.loading} type="submit">
-                Войти
-              </Button>
-            </div>
-            {/* <p className="more-info">
+function Signin({ returnUrl }) {
+  return (
+    <Composed>
+      {({ signInMutation, checkUserExistMutation }) => (
+        <Formik
+          isInitialValid={false}
+          initialValues={{ login: '', password: '' }}
+          onSubmit={values => {
+            signInMutation.mutation({ variables: { ...values } }).then(() => {
+              if (returnUrl) {
+                Router.replace(`/${returnUrl}`)
+                return
+              }
+              Router.push('/')
+            })
+          }}
+          render={props => (
+            // eslint-disable-next-line
+            <AuthForm onSubmit={props.handleSubmit}>
+              <button
+                type="button"
+                className="back"
+                onClick={() => {
+                  Router.back()
+                }}
+              >
+                <img src="/static/images/icons/left-arrow.svg" alt="Назад" />
+              </button>
+              <Logo />
+              <Error error={signInMutation.result.error} />
+              <Input
+                name="login"
+                label="Логин"
+                validate={value =>
+                  login(value, checkUserExistMutation.mutation)
+                }
+              />
+              <Input
+                name="password"
+                label="Пароль"
+                type="password"
+                validate={password}
+              />
+              <div className="button-with-error">
+                <Button loading={signInMutation.result.loading} type="submit">
+                  Войти
+                </Button>
+              </div>
+              {/* <p className="more-info">
               By continuing, you agree to Shortstories&apos;s{' '}
               <Link href="/terms-of-service">
                 <a>Terms of Service</a>
@@ -103,21 +111,26 @@ const Signin = () => (
               </Link>
               .
             </p> */}
-            <Link href="/request-reset">
-              <a className="forgotten-link">Забыли пароль?</a>
-            </Link>
-            <p className="signup-link">
-              Нет аккаунта?{' '}
-              <Link href="/signup">
-                <a>Зарегистрируйте</a>
+              <Link href="/request-reset">
+                <a className="forgotten-link">Забыли пароль?</a>
               </Link>
-              .
-            </p>
-          </AuthForm>
-        )}
-      />
-    )}
-  </Composed>
-)
+              <p className="signup-link">
+                Нет аккаунта?{' '}
+                <Link href="/signup">
+                  <a>Зарегистрируйте</a>
+                </Link>
+                .
+              </p>
+            </AuthForm>
+          )}
+        />
+      )}
+    </Composed>
+  )
+}
+
+Signin.propTypes = {
+  returnUrl: string,
+}
 
 export default Signin
