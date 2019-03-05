@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { styled } from 'linaria/react'
 import Head from 'next/head'
 import { Query } from 'react-apollo'
 import cn from 'classnames'
 import gql from 'graphql-tag'
-import { string } from 'prop-types'
+import { string, func } from 'prop-types'
 import withDarkMode from '../hoc/with-dark-mode'
 import Error from './ErrorMessage'
 import UserAndDate from './UserAndDate'
@@ -24,6 +24,7 @@ const STORY_DATA_QUERY = gql`
         likes
         dislikes
         comments
+        views
       }
       user {
         ...author
@@ -148,7 +149,10 @@ const Wrapper = styled.div`
   }
 `
 
-function SingleStory({ mode, id }) {
+function SingleStory({ mode, id, viewStory }) {
+  useEffect(() => {
+    viewStory()
+  }, [viewStory])
   return (
     <User>
       {({ data: { me } }) => (
@@ -258,6 +262,7 @@ function SingleStory({ mode, id }) {
 SingleStory.propTypes = {
   mode: string.isRequired,
   id: string.isRequired,
+  viewStory: func.isRequired,
 }
 
 export default withDarkMode(SingleStory)

@@ -89,20 +89,24 @@ function StoryItem({
       <ToolsBar>
         <div className="buttons-container">
           <div>
-            <img src="/static/images/icons/like-fill-grey.svg" alt="like" />
+            <img src="/static/images/icons/eye.svg" alt="Просмотры" />
+            <span>{stats.views}</span>
+          </div>
+          <div>
+            <img src="/static/images/icons/like-fill-grey.svg" alt="Лайки" />
             <span>{stats.likes}</span>
           </div>
           <div>
             <img
               src="/static/images/icons/dislike-fill-grey.svg"
-              alt="dislike"
+              alt="Дизлайки"
             />
             <span>{stats.dislikes}</span>
           </div>
           <div>
             <img
               src="/static/images/icons/comment-fill-grey.svg"
-              alt="comments"
+              alt="Комменты"
             />
             <span>{stats.comments}</span>
           </div>

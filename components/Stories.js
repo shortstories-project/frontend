@@ -31,6 +31,7 @@ export const STORIES_QUERY = gql`
           likes
           dislikes
           comments
+          views
         }
         createdAt
       }

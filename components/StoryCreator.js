@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import Router from 'next/router'
 import { styled } from 'linaria/react'
 import cn from 'classnames'
-import { Mutation, Query } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import ReactTextareaAutosize from 'react-textarea-autosize'
 import { Formik } from 'formik'
 import gql from 'graphql-tag'
 import nanoid from 'nanoid'
 import { string } from 'prop-types'
 import withDarkMode from '../hoc/with-dark-mode'
-import Autocomplete from './Autocomplete'
+import GenreSelect from './GenreSelect'
 import Button from './Button'
 import Error from './ErrorMessage'
 import { STORIES_QUERY } from './Stories'
@@ -168,7 +168,6 @@ function StoryCreator({ mode }) {
                 validate={validate}
                 isInitialValid={false}
                 onSubmit={async values => {
-                  console.log(values.genreId)
                   await createStory({ variables: { ...values } })
                   Router.push('/me')
                 }}
@@ -208,13 +207,12 @@ function StoryCreator({ mode }) {
                         )}
                       </div>
                       <div className="title-block">
-                        <Autocomplete
+                        <GenreSelect
+                          isDarkMode={mode === 'dark'}
                           items={genres}
-                          stringField="name"
-                          input={{ name: 'genre', placeholder: 'Выбери жанр' }}
-                          onSelect={item => {
-                            setFieldValue('genreId', item.id)
-                            setGenreId(item.id)
+                          onSelect={genre => {
+                            setFieldValue('genreId', genre.id)
+                            setGenreId(genre.id)
                           }}
                         />
                         {errors.genreId && touched.genreId && (
@@ -225,7 +223,7 @@ function StoryCreator({ mode }) {
                       </div>
                       <div className="body-block">
                         <ReactTextareaAutosize
-                          placeholder="Расскажи историю..."
+                          placeholder="Расскажите историю..."
                           name="body"
                           id="body"
                           value={values.body}

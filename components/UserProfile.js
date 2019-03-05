@@ -24,10 +24,15 @@ const USER_STORIES_QUERY = gql`
         user {
           ...author
         }
+        genre {
+          id
+          name
+        }
         stats {
           likes
           dislikes
           comments
+          views
         }
         createdAt
       }

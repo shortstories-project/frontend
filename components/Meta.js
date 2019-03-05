@@ -58,7 +58,7 @@ function Meta() {
       />
       <link
         rel="preload"
-        href="https://fonts.googleapis.com/css?family=Alegreya:400,700|Montserrat:400,600|Pacifico"
+        href="https://fonts.googleapis.com/css?family=Alegreya:500,700|Montserrat:400,600|Pacifico"
         as="fetch"
         crossOrigin="anonymous"
       />

@@ -8,11 +8,11 @@ import { Formik } from 'formik'
 import gql from 'graphql-tag'
 import { string } from 'prop-types'
 import withDarkMode from '../hoc/with-dark-mode'
+import GenreSelect from './GenreSelect'
 import Button from './Button'
 import Error from './ErrorMessage'
-import User from './User'
-import PleaseSignIn from './PleaseSignIn'
 import { STORY_DATA_QUERY } from './SingleStory'
+import { GENRES_QUERY } from '../lib/queries'
 
 const EDIT_STORY_MUTATION = gql`
   mutation EDIT_STORY_MUTATION(
@@ -119,37 +119,36 @@ export const validate = values => {
 
 function StoryEditor({ mode, id }) {
   return (
-    <User>
-      {({ data: { me } }) => (
-        <Query
-          query={STORY_DATA_QUERY}
-          variables={{ id }}
-          fetchPolicy="cache-first"
-        >
-          {({ data }) => (
-            <Mutation mutation={EDIT_STORY_MUTATION}>
-              {(editStory, { loading, error }) => (
-                <Formik
-                  initialValues={{
-                    title: data.story.title,
-                    body: data.story.body,
-                  }}
-                  validate={validate}
-                  isInitialValid={false}
-                  onSubmit={async values => {
-                    await editStory({ variables: { ...values, id } })
-                    Router.push('/me')
-                  }}
-                >
-                  {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                  }) => (
-                    <PleaseSignIn isAuth={!!me}>
+    <Query query={GENRES_QUERY}>
+      {genresData => {
+        const { genres = [] } = genresData.data
+        return (
+          <Query query={STORY_DATA_QUERY} variables={{ id }}>
+            {({ data }) => (
+              <Mutation mutation={EDIT_STORY_MUTATION}>
+                {(editStory, { loading, error }) => (
+                  <Formik
+                    initialValues={{
+                      title: data.story.title,
+                      body: data.story.body,
+                      genreId: data.story.genre ? data.story.genre.id : null,
+                    }}
+                    validate={validate}
+                    isInitialValid={false}
+                    onSubmit={async values => {
+                      await editStory({ variables: { ...values, id } })
+                      Router.push('/me')
+                    }}
+                  >
+                    {({
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      setFieldValue,
+                    }) => (
                       <Wrapper className={cn({ dark: mode === 'dark' })}>
                         <FormStyles
                           className={cn({ dark: mode === 'dark' })}
@@ -174,6 +173,20 @@ function StoryEditor({ mode, id }) {
                               </span>
                             )}
                           </div>
+                          <div className="title-block">
+                            <GenreSelect
+                              isDarkMode={mode === 'dark'}
+                              items={genres}
+                              onSelect={genre => {
+                                setFieldValue('genreId', genre.id)
+                              }}
+                            />
+                            {errors.genreId && touched.genreId && (
+                              <span className="error-message">
+                                {errors.genreId}
+                              </span>
+                            )}
+                          </div>
                           <div className="body-block">
                             <ReactTextareaAutosize
                               placeholder="Расскажи историю..."
@@ -194,15 +207,15 @@ function StoryEditor({ mode, id }) {
                           </Button>
                         </FormStyles>
                       </Wrapper>
-                    </PleaseSignIn>
-                  )}
-                </Formik>
-              )}
-            </Mutation>
-          )}
-        </Query>
-      )}
-    </User>
+                    )}
+                  </Formik>
+                )}
+              </Mutation>
+            )}
+          </Query>
+        )
+      }}
+    </Query>
   )
 }
 

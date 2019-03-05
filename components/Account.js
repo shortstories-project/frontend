@@ -22,10 +22,15 @@ const WRITTEN_STORIES_QUERY = gql`
         user {
           ...author
         }
+        genre {
+          id
+          name
+        }
         stats {
           likes
           dislikes
           comments
+          views
         }
         createdAt
       }
@@ -54,10 +59,15 @@ const LIKED_STORIES_QUERY = gql`
         user {
           ...author
         }
+        genre {
+          id
+          name
+        }
         stats {
           likes
           dislikes
           comments
+          views
         }
         createdAt
       }
